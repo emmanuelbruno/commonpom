@@ -2,13 +2,13 @@
 
 node() {
     try {
-
-        def gitRemote = sh(returnStdout: true, script: 'git remote get-url origin|cut -c9-').trim()
-        def commitId = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-
+        
         stage('Checkout') {
             checkout scm
         }
+
+        def gitRemote = sh(returnStdout: true, script: 'git remote get-url origin|cut -c9-').trim()
+        def commitId = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
 
         docker.image('brunoe/maven:8-3.3.9')
                 .inside('-v /home/jenkins/.m2:/home/user/.m2' +
