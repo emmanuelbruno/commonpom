@@ -14,6 +14,150 @@
         <java.version>1.8</java.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>artifactory</id>
+
+            <distributionManagement>
+                <repository>
+                    <id>lsis-artifactory</id>
+                    <name>lsis-artifactory-releases</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
+                </repository>
+                <snapshotRepository>
+                    <id>lsis-artifactory</id>
+                    <name>lsis-artifactory-snapshots</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
+                </snapshotRepository>
+            </distributionManagement>
+
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>libs-release</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-release</url>
+                </repository>
+                <repository>
+                    <snapshots />
+                    <id>snapshots</id>
+                    <name>libs-snapshot</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-snapshot</url>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>plugins-release</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-release</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <snapshots />
+                    <id>snapshots</id>
+                    <name>plugins-snapshot</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-snapshot</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+
+
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jolokia</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.13.9</version>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <alias>MyApp</alias>
+                                    <name>brunoe/${project.artifactId}:${project.version}</name>
+                                    <build>
+                                        <from>brunoe/maven:8-3.3.9</from>
+                                        <maintainer>Emmanuel Bruno (bruno@univ-tln.fr)</maintainer>
+                                        <tags>
+                                            <tag>latest</tag>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                        <!--dockerfiledir>.</dockerfiledir-->
+                                        <assembly>
+                                            <descriptor>assembly.xml</descriptor>
+                                            <!--basedir>/</basedir-->
+                                            <!--user></user-->
+                                        </assembly>
+                                        <!--ports>
+                                            <port>8080</port>
+                                        </ports-->
+                                        <cmd>
+                                            <shell>java -jar /maven/MyApp.jar</shell>
+                                        </cmd>
+                                    </build>
+
+                                    <run>
+                                        <!--ports>
+                                            <port>app.port:8080</port>
+                                        </ports>
+                                        <wait>
+                                            <http>
+                                                <url>http://localhost:${app.port}/access</url>
+                                            </http>
+                                            <time>10000</time>
+                                        </wait-->
+                                        <links>
+                                            <link>database:db</link>
+                                        </links>
+                                        <log>
+                                            <prefix>Javatest</prefix>
+                                            <date>none</date>
+                                            <color>cyan</color>
+                                        </log>
+                                    </run>
+                                </image>
+
+                                <image>
+                                    <alias>database</alias>
+                                    <name>postgres:9</name>
+                                    <run>
+                                        <wait>
+                                            <log>database system is ready to accept connections</log>
+                                            <time>20000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>docker:build</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>docker:start</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
