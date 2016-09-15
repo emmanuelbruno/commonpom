@@ -2,7 +2,7 @@
 
 node() {
     try {
-        
+
         stage('Checkout') {
             checkout scm
         }
@@ -12,7 +12,7 @@ node() {
 
         docker.image('brunoe/maven:8-3.3.9')
                 .inside('-v /home/jenkins/.m2:/home/user/.m2' +
-                '-v /home/jenkins/.sonar:/home/user/.sonar') {
+                ' -v /home/jenkins/.sonar:/home/user/.sonar') {
 
             stage('Build') {
                 sh "mvn --settings /home/user/.m2/settings.xml " +
