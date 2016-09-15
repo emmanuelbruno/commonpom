@@ -42,6 +42,7 @@
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
                 </repository>
                 <snapshotRepository>
+                    <id>lsis-artifactory</id>
                     <name>lsis-artifactory-snapshots</name>
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
                 </snapshotRepository>

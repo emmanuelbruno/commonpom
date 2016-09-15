@@ -36,11 +36,7 @@ node() {
                         "sonar:sonar"
             }
         }
-
-        stage('Archive') {
-            junit '**/target/surefire-reports/TEST-*.xml'
-        }
-
+        
         stage('Publish') {
             sh "mvn --settings /home/user/.m2/settings.xml " +
                     "-Duser.home=/home/user " +
