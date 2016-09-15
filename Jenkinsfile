@@ -32,7 +32,7 @@ node() {
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
                         "-B " +
-                        "-P sonar,artifactory" +
+                        "-P sonar,artifactory " +
                         "sonar:sonar"
             }
         }

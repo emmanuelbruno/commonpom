@@ -16,6 +16,32 @@
 
     <profiles>
         <profile>
+            <id>nexus</id>
+
+            <distributionManagement>
+                <repository>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-releases</name>
+                    <url>https://nexus.lsis.univ-tln.fr/nexus/bruno</url>
+                </repository>
+                <snapshotRepository>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-snapshots</name>
+                    <url>https://nexus.lsis.univ-tln.fr/nexus/bruno</url>
+                </snapshotRepository>
+            </distributionManagement>
+
+            <mirrors>
+                <mirror>
+                    <id>nexus</id>
+                    <name>Nexus LSIS Public Mirror</name>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-central/</url>
+                    <mirrorOf>*</mirrorOf>
+                </mirror>
+            </mirrors>
+        </profile>
+
+        <profile>
             <id>artifactory</id>
 
             <distributionManagement>
