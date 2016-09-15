@@ -18,7 +18,6 @@ node() {
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
                         "-B " +
-                        "-P artifactory " +
                         "-Dmaven.test.failure.ignore " +
                         "clean org.jacoco:jacoco-maven-plugin:prepare-agent package"
             }
@@ -27,13 +26,11 @@ node() {
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
                         "-B " +
-                        "-P artifactory " +
                         "verify"
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
                         "-B " +
-                        "-P " +
-                        "artifactory,sonar " +
+                        "-P sonar " +
                         "sonar:sonar"
             }
         }
