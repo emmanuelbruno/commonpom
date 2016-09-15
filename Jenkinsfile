@@ -19,18 +19,20 @@ node() {
                         "-Duser.home=/home/user " +
                         "-B " +
                         "-Dmaven.test.failure.ignore " +
+                        "-P artifactory " +
                         "clean org.jacoco:jacoco-maven-plugin:prepare-agent package"
             }
 
             stage('Quality') {
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
+                        "-P artifactory " +
                         "-B " +
                         "verify"
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
                         "-B " +
-                        "-P sonar " +
+                        "-P sonar,artifactory" +
                         "sonar:sonar"
             }
         }
