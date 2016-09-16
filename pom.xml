@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.univtln.bruno</groupId>
@@ -29,9 +27,31 @@
         <url>http://www.univ-tln.fr</url>
     </organization>
 
+    <developers>
+        <developer>
+            <id>emmanuelbruno</id>
+            <name>Emmanuel Bruno</name>
+            <email>bruno@univ-tln.fr</email>
+            <url>http://bruno.univ-tln.fr</url>
+            <organization>Université de Toulon</organization>
+            <organizationUrl>http://www.univ-tln.fr</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:emmanuelbruno/javatest.git</connection>
+        <url>https://github.com/emmanuelbruno/javatest</url>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <github.global.server>github</github.global.server>
     </properties>
 
     <profiles>
@@ -78,7 +98,7 @@
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-release</url>
                 </repository>
                 <repository>
-                    <snapshots/>
+                    <snapshots />
                     <id>snapshots</id>
                     <name>libs-snapshot</name>
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-snapshot</url>
@@ -95,7 +115,7 @@
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-release</url>
                 </pluginRepository>
                 <pluginRepository>
-                    <snapshots/>
+                    <snapshots />
                     <id>snapshots</id>
                     <name>plugins-snapshot</name>
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-snapshot</url>
@@ -151,6 +171,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.8.2</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.12</version>
                 </plugin>
 
                 <plugin>
@@ -230,8 +256,45 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>2.3</version>
+                    <configuration>
+                        <createDependencyReducedPom>true</createDependencyReducedPom>
+                        <minimizeJar>true</minimizeJar>
+                        <filters>
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jolokia</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.13.9</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
+
+        <plugins>
+        </plugins>
     </build>
 
     <reporting>
