@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.univtln.bruno</groupId>
+    <artifactId>CommonPOM</artifactId>
+    <version>0.1</version>
+    <packaging>pom</packaging>
+
+    <name>CommonPOM</name>
+    <description>A common pom for easy C.I.</description>
+    <url>https://github.com/emmanuelbruno/commonpom</url>
+    <inceptionYear>2015</inceptionYear>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/emmanuelbruno/commonpom/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>Jenkins</system>
+        <url>https://jenkins.lsis.univ-tln.fr/job/emmanuelbruno/job/javatest</url>
+    </ciManagement>
+
+    <organization>
+        <name>Université de Toulon</name>
+        <url>http://www.univ-tln.fr</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>emmanuelbruno</id>
+            <name>Emmanuel Bruno</name>
+            <email>bruno@univ-tln.fr</email>
+            <url>http://bruno.univ-tln.fr</url>
+            <organization>Université de Toulon</organization>
+            <organizationUrl>http://www.univ-tln.fr</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:emmanuelbruno/javatest.git</connection>
+        <url>https://github.com/emmanuelbruno/javatest</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <github.global.server>github</github.global.server>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>nexus</id>
+
+            <distributionManagement>
+                <repository>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-releases</name>
+                    <url>https://nexus.lsis.univ-tln.fr/nexus/bruno</url>
+                </repository>
+                <snapshotRepository>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-snapshots</name>
+                    <url>https://nexus.lsis.univ-tln.fr/nexus/bruno</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+
+        <profile>
+            <id>artifactory</id>
+
+            <distributionManagement>
+                <repository>
+                    <id>lsis-artifactory</id>
+                    <name>lsis-artifactory-releases</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
+                </repository>
+                <snapshotRepository>
+                    <id>lsis-artifactory</id>
+                    <name>lsis-artifactory-snapshots</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
+                </snapshotRepository>
+            </distributionManagement>
+
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>libs-release</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-release</url>
+                </repository>
+                <repository>
+                    <snapshots />
+                    <id>snapshots</id>
+                    <name>libs-snapshot</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-snapshot</url>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>central</id>
+                    <name>plugins-release</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-release</url>
+                </pluginRepository>
+                <pluginRepository>
+                    <snapshots />
+                    <id>snapshots</id>
+                    <name>plugins-snapshot</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-snapshot</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.5.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.4</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.12</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>2.19.1</version>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                        <linkXRef>true</linkXRef>
+                    </configuration>
+                </plugin>
+
+
+                <!-- Configuration du site web généré par Maven pour le projet -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.3</version>
+                    <executions>
+                        <execution>
+                            <id>attach-descriptor</id>
+                            <goals>
+                                <goal>attach-descriptor</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Configuration de gitFlow pour Maven -->
+                <plugin>
+                    <groupId>external.atlassian.jgitflow</groupId>
+                    <artifactId>jgitflow-maven-plugin</artifactId>
+                    <version>1.0-m5.1</version>
+                    <configuration>
+                        <!-- Enable this to push to origin using SSH keys -->
+                        <enableSshAgent>true</enableSshAgent>
+                        <!-- Keep your maven submodules at the same version as the parent POM -->
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <!-- Pushing in-development features to origin allows all devs to see what each other
+                             are working on                                        -->
+                        <pushFeatures>true</pushFeatures>
+                        <!-- This allows the CI server (e.g. Jenkins) to automatically push new releases to
+                             origin; you can then either manually deploy them or, if you are doing Continuous
+                             Deployments, auto-deploy them to prod -->
+                        <pushReleases>true</pushReleases>
+                        <pushHotfixes>true</pushHotfixes>
+
+                        <!-- append the feature name to the version on the feature branch. -->
+                        <enableFeatureVersions>true</enableFeatureVersions>
+                        <!-- Prevents deployments from dev workstations so that they can be done by a CI
+                             server  -->
+                        <noDeploy>true</noDeploy>
+
+                        <!--
+                        git fetch: make sure your local repo copy is up-to-date
+                        git checkout develop: go to develop
+                        git merge origin/develop: make sure your local develop is up-to-date (origin being the remote's name here)
+                        git checkout <feature-branch>: go to you feature branch again
+                        git merge develop: Merge and solve conflicts, if any (on you feature branch)
+                        mvn jgitflow:feature-finish you already solved the conflicts, so this will work
+                        -->
+
+                        <!-- squash>true</squash -->
+
+                        <flowInitContext>
+                            <masterBranchName>master</masterBranchName>
+                            <developBranchName>development</developBranchName>
+                            <featureBranchPrefix>feature-</featureBranchPrefix>
+                            <releaseBranchPrefix>release-</releaseBranchPrefix>
+                            <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
+                            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+                        </flowInitContext>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>2.3</version>
+                    <configuration>
+                        <createDependencyReducedPom>true</createDependencyReducedPom>
+                        <minimizeJar>true</minimizeJar>
+                        <filters>
+                            <filter>
+                                <artifact>*:*</artifact>
+                                <excludes>
+                                    <exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
+                                </excludes>
+                            </filter>
+                        </filters>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jolokia</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.13.9</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+        </plugins>
+    </build>
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+        <outputDirectory>${project.build.directory}/site</outputDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.4</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependencies</report>
+                            <report>scm</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>
