@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.univtln.bruno</groupId>
     <artifactId>CommonPOM</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1-testfeature-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>CommonPOM</name>
@@ -78,7 +76,7 @@
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-release</url>
                 </repository>
                 <repository>
-                    <snapshots/>
+                    <snapshots />
                     <id>snapshots</id>
                     <name>libs-snapshot</name>
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-snapshot</url>
@@ -95,7 +93,7 @@
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-release</url>
                 </pluginRepository>
                 <pluginRepository>
-                    <snapshots/>
+                    <snapshots />
                     <id>snapshots</id>
                     <name>plugins-snapshot</name>
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-snapshot</url>
