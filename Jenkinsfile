@@ -35,15 +35,15 @@ node() {
                         "-P sonar,artifactory " +
                         "sonar:sonar"
             }
-        }
-        
-        stage('Publish') {
-            sh "mvn --settings /home/user/.m2/settings.xml " +
-                    "-Duser.home=/home/user " +
-                    "-B " +
-                    "-Dmaven.test.failure.ignore  " +
-                    "-P artifactory " +
-                    "deploy"
+
+            stage('Publish') {
+                sh "mvn --settings /home/user/.m2/settings.xml " +
+                        "-Duser.home=/home/user " +
+                        "-B " +
+                        "-Dmaven.test.failure.ignore  " +
+                        "-P artifactory " +
+                        "deploy"
+            }
         }
     } catch (e) {
         throw e
