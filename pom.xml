@@ -4,7 +4,7 @@
 
     <groupId>fr.univtln.bruno</groupId>
     <artifactId>CommonPOM</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2-reports-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>CommonPOM</name>
