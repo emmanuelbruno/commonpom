@@ -45,7 +45,7 @@ node() {
                 slackSend channel: slack_channel,
                         color: "good",
                         message: "[<${env.BUILD_URL}|${env.JOB_NAME}>] " +
-                                "Building ${env.BRANCH_NAME}-${commitId}-${env.BUILD_NUMBER}"
+                                "Publishing ${projectVersion} to artifactory"
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
                         "-B " +
