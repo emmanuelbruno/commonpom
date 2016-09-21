@@ -54,7 +54,12 @@ node() {
                         "deploy"
             }
         }
-    } catch (e) {
-        throw e
+    } catch (error) {
+        slackSend channel: slack_channel,
+                color: "danger",
+                message: "Build Error. <${env.BUILD_URL}|${env.JOB_NAME} ${env.BUILD_NUMBER}>) : ${error}"
+        throw error
+    } finally {
     }
+
 }
