@@ -41,6 +41,15 @@ node() {
                         "sonar:sonar"
             }
 
+            def projectVersion = sh(returnStdout:
+                    true,
+                    script: "mvn --settings /home/user/.m2/settings.xml " +
+                            "-Duser.home=/home/user " +
+                            "help:evaluate " +
+                            "-Dexpression=project.version " +
+                            "| tail -8 " +
+                            "| head -1").trim()
+
             stage('Publish') {
                 slackSend channel: slack_channel,
                         color: "good",
