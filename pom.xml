@@ -277,6 +277,25 @@
                     </configuration>
                 </plugin>
 
+                <!-- runs integration tests.
+                mvn verify
+                http://maven.apache.org/surefire/maven-failsafe-plugin/
+                See docker profile to bind needed servers (web, database, ...)
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.19.1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <!-- Generate of web site for the project. It includes static and dynamic pages,
                 and several reports.
                 See <reporting> below.
@@ -402,7 +421,8 @@
                             </filter>
                         </filters>
                         <transformers>
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                 <manifestEntries>
                                     <Main-Class>${app.main.class}</Main-Class>
                                 </manifestEntries>
@@ -451,7 +471,6 @@
                             <report>project-team</report>
                             <report>mailing-list</report>
                             <report>issue-tracking</report>
-                            <report>project-team</report>
                             <report>license</report>
                             <report>scm</report>
                             <report>summary</report>
