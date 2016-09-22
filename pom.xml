@@ -457,11 +457,13 @@
                     </executions>
                 </plugin>
 
-
+                <!-- plugins that permits docker images building and running.
+                https://dmp.fabric8.io/
+                -->
                 <plugin>
-                    <groupId>org.jolokia</groupId>
+                    <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.13.9</version>
+                    <version>0.15.16</version>
                 </plugin>
 
             </plugins>
