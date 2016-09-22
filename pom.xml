@@ -112,6 +112,7 @@
             </distributionManagement>
 
             <repositories>
+                <!-- Repositories used as maven central proxy for faster download -->
                 <repository>
                     <snapshots>
                         <enabled>false</enabled>
@@ -125,6 +126,13 @@
                     <id>snapshots</id>
                     <name>libs-snapshot</name>
                     <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-snapshot</url>
+                </repository>
+
+                <!-- Private maven repository -->
+                <repository>
+                    <id>lsis-artifactory</id>
+                    <name>lsis-artifactory-releases</name>
+                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
                 </repository>
             </repositories>
             <pluginRepositories>
