@@ -177,7 +177,6 @@
                         <version>0.12</version>
                         <configuration>
                             <message>Creating site for ${project.version}</message>
-                            <path>docs</path>
                         </configuration>
                         <executions>
                             <execution>
