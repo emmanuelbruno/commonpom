@@ -152,6 +152,45 @@
                 </pluginRepository>
             </pluginRepositories>
         </profile>
+
+        <!--
+        This profile push the maven site to a github branch
+        to make a public site with github pages (https://pages.github.com/).
+
+        first adds github authentication in ~/.m2/settings.xml
+            <servers>
+                <server>
+                    <id>github</id>
+                    <password>OAUTH2TOKEN</password>
+                </server>
+            </servers>
+
+        mvn site -P github-site
+        -->
+        <profile>
+            <id>github-site</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.12</version>
+                        <configuration>
+                            <message>Creating site for ${project.version}</message>
+                            <path>docs</path>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <!-- These dependencies configuration is centralized
