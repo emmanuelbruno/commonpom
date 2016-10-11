@@ -41,11 +41,20 @@ node() {
                         "sonar:sonar"
             }
 
+            def projectVersion = sh(returnStdout:
+                    true,
+                    script: "mvn --settings /home/user/.m2/settings.xml " +
+                            "-Duser.home=/home/user " +
+                            "help:evaluate " +
+                            "-Dexpression=project.version " +
+                            "| tail -8 " +
+                            "| head -1").trim()
+
             stage('Publish') {
                 slackSend channel: slack_channel,
                         color: "good",
                         message: "[<${env.BUILD_URL}|${env.JOB_NAME}>] " +
-                                "Building ${env.BRANCH_NAME}-${commitId}-${env.BUILD_NUMBER}"
+                                "Publishing ${projectVersion} to artifactory"
                 sh "mvn --settings /home/user/.m2/settings.xml " +
                         "-Duser.home=/home/user " +
                         "-B " +
@@ -54,7 +63,12 @@ node() {
                         "deploy"
             }
         }
-    } catch (e) {
-        throw e
+    } catch (error) {
+        slackSend channel: slack_channel,
+                color: "danger",
+                message: "Build Error. <${env.BUILD_URL}|${env.JOB_NAME} ${env.BUILD_NUMBER}>) : ${error}"
+        throw error
+    } finally {
     }
+
 }
