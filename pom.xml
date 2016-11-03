@@ -191,6 +191,14 @@
         </profile>
     </profiles>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4.1210.jre7</version>
+        </dependency>
+    </dependencies>
+
     <!-- These dependencies configuration is centralized
     but they have to be explicitly added to the children projects
     -->
@@ -204,9 +212,10 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <finalName>${project.artifactId}</finalName>
+
+
 
         <!-- Centralized plugin configuration. These plugins have to be
         explicitly activated in children projects. Versions are given to ensure
@@ -537,6 +546,8 @@
             </plugin>
 
         </plugins>
+
+
     </build>
 
     <!-- See maven:site plugin -->
