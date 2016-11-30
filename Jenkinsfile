@@ -7,7 +7,7 @@ node() {
         jenkinsFileLSISUtils.slackChannel = "ci"
         jenkinsFileLSISUtils.mavenDockerImage = 'hub-docker.lsis.univ-tln.fr:443/brunoe/maven:3-3.9-SNAPSHOT'
         withCredentials([[$class          : 'UsernamePasswordMultiBinding',
-                          credentialsId   : 'bruno.utln',
+                          credentialsId   : 'login.utln',
                           usernameVariable: 'UTLN_USERNAME',
                           passwordVariable: 'UTLN_PASSWORD']]) {
             jenkinsFileLSISUtils.UTLN_USERNAME = env.UTLN_USERNAME
