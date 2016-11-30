@@ -4,24 +4,20 @@
 
 node() {
     try {
+        //In jenkins add settings.xml, settings-security.xml, login.utln (utln password)
+        //This file should be protected (signed ?)
+
         jenkinsFileLSISUtils.slackChannel = "ci"
         jenkinsFileLSISUtils.mavenDockerImage = 'hub-docker.lsis.univ-tln.fr:443/brunoe/maven:3-3.9-SNAPSHOT'
-        withCredentials([[$class          : 'UsernamePasswordMultiBinding',
-                          credentialsId   : 'login.utln',
-                          usernameVariable: 'UTLN_USERNAME',
-                          passwordVariable: 'UTLN_PASSWORD']]) {
-            jenkinsFileLSISUtils.UTLN_USERNAME = env.UTLN_USERNAME
-            jenkinsFileLSISUtils.UTLN_PASSWORD = env.UTLN_PASSWORD
-        }
 
         //checkout and set version with buildnumber
         jenkinsFileLSISUtils.init()
 
         jenkinsFileLSISUtils.mvnPackage()
-        jenkinsFileLSISUtils.mvnDeploy("-P nexus-dev")
+        jenkinsFileLSISUtils.mvnDeploy("-P stage-devel")
         jenkinsFileLSISUtils.mvnQuality()
-        jenkinsFileLSISUtils.mvnDeploy("-P nexus-stage")
-        jenkinsFileLSISUtils.mvnDeploy("-P nexus-prod")
+        jenkinsFileLSISUtils.mvnDeploy("-P stage-staging")
+        jenkinsFileLSISUtils.mvnDeploy("-P stage-production")
 
         //jenkinsFileLSISUtils.gitTag()
     } catch (error) {

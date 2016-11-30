@@ -58,7 +58,7 @@
 
     <profiles>
         <profile>
-            <id>lsis-nexus-dev</id>
+            <id>stage-devel</id>
             <distributionManagement>
                 <repository>
                     <id>lsis-nexus</id>
@@ -71,9 +71,13 @@
                     <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-snapshot</url>
                 </snapshotRepository>
             </distributionManagement>
+            <properties>
+                <docker.pull.registry>hub-docker.lsis.univ-tln.fr</docker.pull.registry>
+                <docker.push.registry>brunoe-docker.lsis.univ-tln.fr</docker.push.registry>
+            </properties>
         </profile>
         <profile>
-            <id>lsis-nexus-stage</id>
+            <id>stage-staging</id>
             <distributionManagement>
                 <repository>
                     <id>lsis-nexus</id>
@@ -86,9 +90,13 @@
                     <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-snapshot</url>
                 </snapshotRepository>
             </distributionManagement>
+            <properties>
+                <docker.pull.registry>hub-docker.lsis.univ-tln.fr</docker.pull.registry>
+                <docker.push.registry>brunoe-docker.lsis.univ-tln.fr</docker.push.registry>
+            </properties>
         </profile>
         <profile>
-            <id>lsis-nexus-prod</id>
+            <id>stage-production</id>
             <distributionManagement>
                 <repository>
                     <id>lsis-nexus</id>
@@ -101,6 +109,10 @@
                     <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-public-snapshot</url>
                 </snapshotRepository>
             </distributionManagement>
+            <properties>
+                <docker.pull.registry>hub-docker.lsis.univ-tln.fr</docker.pull.registry>
+                <docker.push.registry>brunoe-docker-public.lsis.univ-tln.fr</docker.push.registry>
+            </properties>
         </profile>
 
         <!--
