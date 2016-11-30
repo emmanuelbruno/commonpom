@@ -20,7 +20,7 @@
 
     <ciManagement>
         <system>Jenkins</system>
-        <url>https://jenkins.lsis.univ-tln.fr/job/emmanuelbruno/job/javatest</url>
+        <url>https://jenkins.lsis.univ-tln.fr/job/emmanuelbruno/job/commonpom</url>
     </ciManagement>
 
     <organization>
@@ -56,100 +56,50 @@
     </properties>
 
     <profiles>
-        <!-- this profile may be activated to deploy maven artifact to the
-            LSIS nexus server https://nexus.lsis.univ-tln.fr/
-            The credentials must be given in ~/.m2/settings.xml
-            -->
-        <!-- DO NOT USE, WORK IN PROGRESS-->
         <profile>
-            <id>nexus</id>
+            <id>lsis-nexus-dev</id>
             <distributionManagement>
                 <repository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-releases</name>
-                    <url>https://nexus.lsis.univ-tln.fr/nexus/bruno</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-release/</url>
                 </repository>
                 <snapshotRepository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-snapshots</name>
-                    <url>https://nexus.lsis.univ-tln.fr/nexus/bruno</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-snapshot</url>
                 </snapshotRepository>
             </distributionManagement>
         </profile>
-
-        <!-- this profile may be activated to pull and deploy maven artifact to the
-            LSIS artifactory server https://artifactory.lsis.univ-tln.fr/artifactory.
-            The credentials must be given in ~/.m2/settings.xml
-              <servers>
-                ...
-                <server>
-                  <id>lsis-artifactory</id>
-                  <username>UTLN_LOGIN</username>
-                  <password>UTLN_PASSWORD</password>
-                </server>
-                <server>
-                  <id>lsis-artifactory-snapshots</id>
-                  <username>UTLN_LOGIN</username>
-                  <password>UTLN_PASSWORD</password>
-                </server>
-                ...
-              </servers>
-            -->
         <profile>
-            <id>artifactory</id>
+            <id>lsis-nexus-stage</id>
             <distributionManagement>
                 <repository>
-                    <id>lsis-artifactory</id>
-                    <name>lsis-artifactory-releases</name>
-                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-releases</name>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-release/</url>
                 </repository>
                 <snapshotRepository>
-                    <id>lsis-artifactory</id>
-                    <name>lsis-artifactory-snapshots</name>
-                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-snapshots</name>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-snapshot</url>
                 </snapshotRepository>
             </distributionManagement>
-
-            <repositories>
-                <!-- Repositories used as maven central proxy for faster download -->
+        </profile>
+        <profile>
+            <id>lsis-nexus-prod</id>
+            <distributionManagement>
                 <repository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>central</id>
-                    <name>libs-release</name>
-                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-release</url>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-releases</name>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-public-release/</url>
                 </repository>
-                <repository>
-                    <snapshots />
-                    <id>snapshots</id>
-                    <name>libs-snapshot</name>
-                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/libs-snapshot</url>
-                </repository>
-
-                <!-- Private maven repository -->
-                <repository>
-                    <id>lsis-artifactory</id>
-                    <name>lsis-artifactory-releases</name>
-                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/bruno</url>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <id>central</id>
-                    <name>plugins-release</name>
-                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-release</url>
-                </pluginRepository>
-                <pluginRepository>
-                    <snapshots />
-                    <id>snapshots</id>
-                    <name>plugins-snapshot</name>
-                    <url>https://artifactory.lsis.univ-tln.fr/artifactory/plugins-snapshot</url>
-                </pluginRepository>
-            </pluginRepositories>
+                <snapshotRepository>
+                    <id>lsis-nexus</id>
+                    <name>lsis-nexus-snapshots</name>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-public-snapshot</url>
+                </snapshotRepository>
+            </distributionManagement>
         </profile>
 
         <!--
