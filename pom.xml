@@ -483,6 +483,20 @@
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>0.15.16</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <images>
+                            <image>
+                                <name>brunoe/base</name>
+                                <build>
+                                    <dockerFileDir>.</dockerFileDir>
+                                    <tags>
+                                        <tag>${project.version}</tag>
+                                    </tags>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
                 </plugin>
 
             </plugins>
