@@ -63,7 +63,7 @@
                 <repository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-releases</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-release/</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-release</url>
                 </repository>
                 <snapshotRepository>
                     <id>lsis-nexus</id>
@@ -82,7 +82,7 @@
                 <repository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-releases</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-release/</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-release</url>
                 </repository>
                 <snapshotRepository>
                     <id>lsis-nexus</id>
