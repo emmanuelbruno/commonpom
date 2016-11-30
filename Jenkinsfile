@@ -13,8 +13,12 @@ node() {
         //checkout and set version with buildnumber
         jenkinsFileLSISUtils.init()
 
-        jenkinsFileLSISUtils.mvnPackage()
+        //clean build package without tests
+        jenkinsFileLSISUtils.mvnBuild()
+        //run all tests
+        jenkinsFileLSISUtils.mvnTest()
         jenkinsFileLSISUtils.mvnDeploy("-P stage-devel")
+        //check quality
         jenkinsFileLSISUtils.mvnQuality()
         jenkinsFileLSISUtils.mvnDeploy("-P stage-staging")
         jenkinsFileLSISUtils.mvnDeploy("-P stage-production")
