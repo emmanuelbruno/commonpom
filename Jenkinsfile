@@ -23,7 +23,7 @@ node() {
         jenkinsFileLSISUtils.mvnDeploy("-P stage-staging")
         jenkinsFileLSISUtils.mvnDeploy("-P stage-production")
 
-        //jenkinsFileLSISUtils.gitTag()
+        jenkinsFileLSISUtils.gitTag()
     } catch (error) {
         slackSend channel: jenkinsFileLSISUtils.slackChannel,
                 color: "danger",
