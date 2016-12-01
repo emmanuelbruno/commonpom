@@ -1,5 +1,5 @@
 #!groovy
 
-@Library('github.com/emmanuelbruno/brunoe-pipeline-library@master') _
+@Library('github.com/emmanuelbruno/brunoe-pipeline-library@development') _
 
 jenkinsFileLSISUtils.defaultMavenFullPipeLine()
