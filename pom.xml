@@ -50,6 +50,10 @@
         <url>https://github.com/emmanuelbruno/javatest</url>
     </scm>
 
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
