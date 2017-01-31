@@ -188,6 +188,23 @@
                 <version>1.4.193</version>
             </dependency>
 
+            <!-- Logging with sl4j and one of : -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.1.8</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.22</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>1.7.22</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -560,7 +577,6 @@
             </plugin>
 
         </plugins>
-
 
     </build>
 
