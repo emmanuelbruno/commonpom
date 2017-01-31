@@ -475,6 +475,25 @@
                     </configuration>
                 </plugin>
 
+                <!-- Sets the default class to run with
+                mvn exec:java
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.5.0</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>java</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <mainClass>${app.main.class}</mainClass>
+                    </configuration>
+                </plugin>
+
                 <!-- Builds a jar that can merge the artifact and its dependencies
                 https://maven.apache.org/plugins/maven-shade-plugin/
                 WARNING minimizeJar can cause trouble, disable it in the child project if needed
