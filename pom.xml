@@ -209,7 +209,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <!--finalName>${project.artifactId}</finalName-->
 
         <!-- Centralized plugin configuration. These plugins have to be
         explicitly activated in children projects. Versions are given to ensure
@@ -257,7 +257,7 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.0.2</version>
                     <configuration>
-                        <classifier>main</classifier>
+                        <!--classifier>main</classifier-->
                     </configuration>
                 </plugin>
 
@@ -384,7 +384,8 @@
                 </distributionManagement>
                 to the project.
 
-                mvn site:run launches a web server see http://localhost:8080/
+                mvn site:run launches de
+                a web server see http://localhost:8080/
                 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -490,6 +491,7 @@
                         </execution>
                     </executions>
                     <configuration>
+                        <!--suppress MavenModelInspection -->
                         <mainClass>${app.main.class}</mainClass>
                     </configuration>
                 </plugin>
@@ -509,7 +511,14 @@
                     <configuration>
                         <createDependencyReducedPom>true</createDependencyReducedPom>
                         <minimizeJar>true</minimizeJar>
-                        <filters>
+                        <shadedArtifactAttached>true</shadedArtifactAttached>
+                        <!--shadedClassifierName>jar-with-dependencies</shadedClassifierName-->
+                        <!--artifactSet>
+                            <includes>
+                                <include>*:main</include>
+                            </includes>
+                        </artifactSet-->
+                        <!--filters>
                             <filter>
                                 <artifact>*:*</artifact>
                                 <excludes>
@@ -518,11 +527,12 @@
                                     <exclude>META-INF/*.RSA</exclude>
                                 </excludes>
                             </filter>
-                        </filters>
+                        </filters-->
                         <transformers>
                             <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                 <manifestEntries>
+                                    <!--suppress MavenModelInspection -->
                                     <Main-Class>${app.main.class}</Main-Class>
                                 </manifestEntries>
                             </transformer>
