@@ -561,7 +561,7 @@
                 <version>1.4.1</version>
                 <executions>
                     <execution>
-                        <id>enforce-versions</id>
+                        <id>enforce</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
@@ -576,6 +576,28 @@
                                 <!--requireOS>
                                     <family>unix</family>
                                 </requireOS-->
+                                <!-- requires that dependency version numbers converge -->
+                                <dependencyConvergence/>
+                                <!-- checks that the versions within the reactor are consistent
+                                furthermore it will check that every module within the project
+                                contains a parent and that the parent is part of the reactor build
+                                -->
+                                <reactorModuleConvergence>
+                                    <message>The reactor is not valid</message>
+                                    <ignoreModuleDependencies>true</ignoreModuleDependencies>
+                                </reactorModuleConvergence>
+                                <!-- checks that specified environment variables are set-->
+                                <requireEnvironmentVariable>
+                                    <variableName>JAVA_HOME</variableName>
+                                    <variableName>MAVEN_HOME</variableName>
+                                </requireEnvironmentVariable>
+                                <!-- checks that  that the version for each dependency resolved
+                                during a build, is equal to or higher than all transitive dependency declarations -->
+                                <requireUpperBoundDeps>
+                                    <!-- 'uniqueVersions' (default:false) can be set to true
+                                    if you want to compare the timestamped SNAPSHOTs  -->
+                                    <!-- <uniqueVersions>true</uniqueVersions> -->
+                                </requireUpperBoundDeps>
                             </rules>
                         </configuration>
                     </execution>
