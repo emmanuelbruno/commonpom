@@ -46,13 +46,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:emmanuelbruno/javatest.git</connection>
-        <url>https://github.com/emmanuelbruno/javatest</url>
+        <connection>scm:git:git@github.com:emmanuelbruno/commonpom.git</connection>
+        <url>https://github.com/emmanuelbruno/commonpom</url>
     </scm>
-
-    <prerequisites>
-        <maven>3.0.3</maven>
-    </prerequisites>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -209,8 +205,6 @@
     </dependencyManagement>
 
     <build>
-        <!--finalName>${project.artifactId}</finalName-->
-
         <!-- Centralized plugin configuration. These plugins have to be
         explicitly activated in children projects. Versions are given to ensure
         build repeatability. -->
@@ -256,9 +250,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.0.2</version>
-                    <configuration>
-                        <!--classifier>main</classifier-->
-                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -272,7 +263,6 @@
                     <artifactId>maven-install-plugin</artifactId>
                     <version>2.5.2</version>
                 </plugin>
-
 
                 <!-- Generates the javadoc. Private members are shown.
                 see <reporting> below for a public only version
@@ -321,7 +311,7 @@
                     <version>1.12</version>
                 </plugin>
 
-                <!-- Executes unite test and Generates reports (target/surefire-reports).
+                <!-- Executes unit tests and Generates reports (target/surefire-reports).
                 http://maven.apache.org/surefire/maven-surefire-plugin/
                 mvn test
 
@@ -511,23 +501,10 @@
                     <configuration>
                         <createDependencyReducedPom>true</createDependencyReducedPom>
                         <minimizeJar>true</minimizeJar>
+                        <!-- The shaded artifact is not the main artifact -->
                         <shadedArtifactAttached>true</shadedArtifactAttached>
-                        <!--shadedClassifierName>jar-with-dependencies</shadedClassifierName-->
-                        <!--artifactSet>
-                            <includes>
-                                <include>*:main</include>
-                            </includes>
-                        </artifactSet-->
-                        <!--filters>
-                            <filter>
-                                <artifact>*:*</artifact>
-                                <excludes>
-                                    <exclude>META-INF/*.SF</exclude>
-                                    <exclude>META-INF/*.DSA</exclude>
-                                    <exclude>META-INF/*.RSA</exclude>
-                                </excludes>
-                            </filter>
-                        </filters-->
+                        <shadedClassifierName>withdependencies</shadedClassifierName>
+
                         <transformers>
                             <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -554,17 +531,17 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.18.1</version>
+                    <version>0.19.0</version>
                     <extensions>true</extensions>
                     <configuration>
                         <images>
                             <image>
-                                <name>brunoe/base</name>
+                                <!--name>brunoe/base</name-->
                                 <build>
-                                    <dockerFileDir>.</dockerFileDir>
+                                    <!-- dockerFileDir>.</dockerFileDir>
                                     <tags>
                                         <tag>${project.version}</tag>
-                                    </tags>
+                                    </tags-->
                                 </build>
                             </image>
                         </images>
