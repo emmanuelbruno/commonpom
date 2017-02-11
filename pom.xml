@@ -34,8 +34,8 @@
         <!-- lsis maven dev repository
         It can contains releases and snapshots -->
         <repository>
-            <id>lsis-nexus-dev</id>
-            <name>lsis-nexus-dev</name>
+            <id>lsis-nexus-devel</id>
+            <name>lsis-nexus-devel</name>
             <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-devel/</url>
         </repository>
     </repositories>
