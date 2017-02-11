@@ -477,6 +477,12 @@
 
                         <!-- squash>true</squash -->
 
+                        <scmCommentPrefix>[gitflow]</scmCommentPrefix>
+
+                        <!-- A VOIR -->
+                        <featureRebase>true</featureRebase>
+
+
                         <flowInitContext>
                             <masterBranchName>master</masterBranchName>
                             <developBranchName>development</developBranchName>
