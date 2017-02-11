@@ -6,35 +6,37 @@
     <properties>
         <projectShortName>commonpom</projectShortName>
         <github.account>emmanuelbruno</github.account>
+        <utln.login>bruno</utln.login>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <github.global.server>github</github.global.server>
     </properties>
 
     <repositories>
-        <!-- lsis public mave release mirror -->
+        <!-- lsis public maven mirror
+        It includes lsis-production and main repository mirrors.
+        -->
         <repository>
-            <id>lsis-nexus-public-release</id>
-            <name>lsis-nexus-releases</name>
-            <url>https://nexus.lsis.univ-tln.fr/repository/maven-releases/</url>
+            <id>lsis-nexus-public</id>
+            <name>lsis-nexus-public</name>
+            <url>https://nexus.lsis.univ-tln.fr/repository/maven-public</url>
         </repository>
-        <!-- lsis public maven snapshot mirror -->
+
+        <!-- lsis maven staging repository
+        It contains only releases.
+        -->
         <repository>
-            <id>lsis-nexus-public-snapshot</id>
-            <name>lsis-nexus-releases</name>
-            <url>https://nexus.lsis.univ-tln.fr/repository/maven-snapshots/</url>
+            <id>lsis-nexus-staging</id>
+            <name>lsis-nexus-staging</name>
+            <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-staging/</url>
         </repository>
-        <!-- lsis private maven release -->
+
+        <!-- lsis maven dev repository
+        It can contains releases and snapshots -->
         <repository>
-            <id>lsis-nexus-private-release</id>
-            <name>lsis-nexus-releases</name>
-            <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-release/</url>
-        </repository>
-        <!-- lsis private maven snapshot-->
-        <repository>
-            <id>lsis-nexus-private-snapshot</id>
-            <name>lsis-nexus-releases</name>
-            <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-snapshot/</url>
+            <id>lsis-nexus-dev</id>
+            <name>lsis-nexus-dev</name>
+            <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-dev/</url>
         </repository>
     </repositories>
 
@@ -86,23 +88,25 @@
     </ciManagement>
 
     <profiles>
+        <!-- Three profiles to set the maven/docker repository/registry used to push/pull/deploy artifacts/images.
+        -->
         <profile>
             <id>stage-devel</id>
             <distributionManagement>
                 <repository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-releases</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-release</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-devel</url>
                 </repository>
                 <snapshotRepository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-snapshots</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-snapshot</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-devel</url>
                 </snapshotRepository>
             </distributionManagement>
             <properties>
                 <docker.pull.registry>hub-docker.lsis.univ-tln.fr</docker.pull.registry>
-                <docker.push.registry>brunoe-docker.lsis.univ-tln.fr</docker.push.registry>
+                <docker.push.registry>docker-bruno-production.lsis.univ-tln.fr</docker.push.registry>
             </properties>
         </profile>
         <profile>
@@ -110,18 +114,13 @@
             <distributionManagement>
                 <repository>
                     <id>lsis-nexus</id>
-                    <name>lsis-nexus-releases</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-release</url>
+                    <name>lsis-nexus-staging</name>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-staging</url>
                 </repository>
-                <snapshotRepository>
-                    <id>lsis-nexus</id>
-                    <name>lsis-nexus-snapshots</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-snapshot</url>
-                </snapshotRepository>
             </distributionManagement>
             <properties>
                 <docker.pull.registry>hub-docker.lsis.univ-tln.fr</docker.pull.registry>
-                <docker.push.registry>brunoe-docker.lsis.univ-tln.fr</docker.push.registry>
+                <docker.push.registry>docker-bruno-staging.lsis.univ-tln.fr</docker.push.registry>
             </properties>
         </profile>
         <profile>
@@ -129,18 +128,13 @@
             <distributionManagement>
                 <repository>
                     <id>lsis-nexus</id>
-                    <name>lsis-nexus-releases</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-public-release/</url>
+                    <name>lsis-nexus-production</name>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-production</url>
                 </repository>
-                <snapshotRepository>
-                    <id>lsis-nexus</id>
-                    <name>lsis-nexus-snapshots</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-brunoe-public-snapshot</url>
-                </snapshotRepository>
             </distributionManagement>
             <properties>
                 <docker.pull.registry>hub-docker.lsis.univ-tln.fr</docker.pull.registry>
-                <docker.push.registry>brunoe-docker-public.lsis.univ-tln.fr</docker.push.registry>
+                <docker.push.registry>docker-bruno-devel.lsis.univ-tln.fr</docker.push.registry>
             </properties>
         </profile>
 
