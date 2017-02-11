@@ -19,7 +19,7 @@
         <repository>
             <id>lsis-nexus-public</id>
             <name>lsis-nexus-public</name>
-            <url>https://nexus.lsis.univ-tln.fr/repository/maven-public</url>
+            <url>https://nexus.lsis.univ-tln.fr/repository/maven-public/</url>
         </repository>
 
         <!-- lsis maven staging repository
@@ -36,7 +36,7 @@
         <repository>
             <id>lsis-nexus-dev</id>
             <name>lsis-nexus-dev</name>
-            <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-dev/</url>
+            <url>https://nexus.lsis.univ-tln.fr/repository/maven-lsis-devel/</url>
         </repository>
     </repositories>
 
@@ -96,12 +96,12 @@
                 <repository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-releases</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-devel</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-devel/</url>
                 </repository>
                 <snapshotRepository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-snapshots</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-devel</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-devel/</url>
                 </snapshotRepository>
             </distributionManagement>
             <properties>
@@ -115,7 +115,7 @@
                 <repository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-staging</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-staging</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-staging/</url>
                 </repository>
             </distributionManagement>
             <properties>
@@ -129,7 +129,7 @@
                 <repository>
                     <id>lsis-nexus</id>
                     <name>lsis-nexus-production</name>
-                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-production</url>
+                    <url>https://nexus.lsis.univ-tln.fr/repository/maven-${utln.login}-production/</url>
                 </repository>
             </distributionManagement>
             <properties>
