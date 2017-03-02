@@ -31,7 +31,7 @@
         </repository>
 
         <!-- lsis maven dev repository
-        It can contains releases and snapshots -->
+        It can contain releases and snapshots -->
         <repository>
             <id>lsis-nexus-devel</id>
             <name>lsis-nexus-devel</name>
