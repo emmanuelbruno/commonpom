@@ -565,10 +565,10 @@
                             <image>
                                 <!--name>brunoe/base</name-->
                                 <build>
-                                    <!-- dockerFileDir>.</dockerFileDir>
+                                    <!-- dockerFileDir>.</dockerFileDir-->
                                     <tags>
                                         <tag>${project.version}</tag>
-                                    </tags-->
+                                    </tags>
                                 </build>
                             </image>
                         </images>
