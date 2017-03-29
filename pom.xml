@@ -278,6 +278,23 @@
                 <version>${hibernate.version}</version>
             </dependency>
 
+            <!-- Bean validation -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.1.0.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>5.3.4.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>javax.el-api</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -659,7 +676,7 @@
                                     <family>unix</family>
                                 </requireOS-->
                                 <!-- requires that dependency version numbers converge -->
-                                <dependencyConvergence />
+                                <!-- dependencyConvergence /-->
                                 <!-- checks that the versions within the reactor are consistent
                                 furthermore it will check that every module within the project
                                 contains a parent and that the parent is part of the reactor build
