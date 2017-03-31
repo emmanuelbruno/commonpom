@@ -9,3 +9,4 @@ A common pom with :
   - default maven exec and shaded jar 
   - docker image easy build
   - basic rules enforcing
+  - basic jar signing
