@@ -7,6 +7,7 @@
         <github.account>emmanuelbruno</github.account>
         <utln.login>bruno</utln.login>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <github.global.server>github</github.global.server>
         <jackson.version>2.8.6</jackson.version>
