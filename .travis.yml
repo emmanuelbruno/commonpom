@@ -5,7 +5,7 @@ cache:
   - "$HOME/.m2"
 
 script:
-  - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${env.TRAVIS_BUILD_NUMBER}'
+  - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BUILD_NUMBER}
   - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user clean install
 
 after_success:
