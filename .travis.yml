@@ -5,28 +5,24 @@ cache:
   - "$HOME/.m2"
 
 script:
-  - alias docker_maven="docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine"
-  - docker_maven mvn -Duser.home=/home/user mvn build-helper:parse-version versions:set -DnewVersion="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${env.TRAVIS_BUILD_NUMBER}"
-  - docker_maven mvn -Duser.home=/home/user clean install
+  - alias docker_maven="docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user"
+  - docker_maven build-helper:parse-version versions:set -DnewVersion="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${env.TRAVIS_BUILD_NUMBER}"
+  - docker_maven clean install
 
 after_success:
-  - alias docker_maven="docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine"
-  - docker_maven mvn -P stage-devel-bintray -Duser.home=/home/user deploy 
+  - alias docker_maven="docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user"
+  - docker_maven -P stage-devel-bintray -Duser.home=/home/user deploy
+
 after_failure:
   - find target/it -name *.log -exec echo {} \; -exec cat {} \;
 
 branches:
-    except:
-        - gh-pages
+  except:
+    - gh-pages
 
-#deploy:
-#  provider: bintray
-#  file: target/bin/bintray.json
-#  user: brunoe
-#  key: "$BINTRAY_API_KEY"
-#  on:
-#    all_branches: true
-  
 env:
   global:
     secure: TJbZA0WnA2iPUeuV6UJMPJ8A2IRubQTfMtchxIB7GxoowyKTKS38tXH2U1ZGwGEb3FgtWRUStruzj6brLF43NiavZJSy4HHb+infIw/iCMAdNFvgLnJHIYiVqwWxD3gNbZRU0MhnKEPXFpliBCV7lwXIbABczd1cZFoOj9v9Se1XkN9gysgkqs/0gnic50VVEld8CdVYSv6Kz2rXzI12Fgy2ngxN1pmYauqSCWZCWhWwM3BaOXmUtP+e1NekOlD6lCY7uBM3/vjH9batKd0SUOarwHTJF2g89L8qAJDz8VEyL4u898RnVBXV1nQdfHaQUqa473txg+8HsGCCzxiYMDSozzT/NW9XXkfTYBCtgf5kwABPcpVLGJmhqamWzQ7ITkbNfEfPDPQGYgCYnWFRMUZKeey14M5adgVo5hN1x93s4+5Eu0e5GjzIHbMFGVrAk5atHBPQEmclh01yFm5nd5NYNoUON6a5J2+oA2ZiP3OrUe+e2qMkfOu6Q2Tigj0wrL6WaSlNaSYehUUKEkUREML0pSGKlQgu32JQf4fv2mih9AKoqX4Xa+jsXSTivtsFxhBDuoPd4sjZ949zvvwzX8/IJaVwDpQIJOkEOJjjvW75YygSporr3PU5E8pmVa66vh/fb5hfIZcq9VP7RVWNMGwROFGGVUY7k6XuqazD+mM=
+  notifications:
+    slack:
+      secure: ekQXD4yhBuiGGM0z6O4mI/vleiMnf1VHMd2PKB6RbEgxRl0ATumQK9Jlm+MpmqRqUyDFT8778DU4UTWISpwezYQxzFMDFQX6TIgB6j+bDw5w1tbBJQu5K3TDIZQoex+V3y98o/7ZpvpFbvLUlQY5VgOa2wFQFzZ64ibjcT2utPfgZclKqNg6AeUk2Tb1zESolzg3aW2ShvhCrhaKcj28QQ6EN8vf/qUr0cdL10jvl+UWvA7WULZ6rybfmEYQPCAz9yXGzh/Fhj4TyMGM8Gp/QpC4zVhzFLbspH5FP0AYgLvdXDMulJxvWgMV8JmxqURsNIymFG5f22u4rHlaYcQLJ0+SomQqXSTruznpRqbL9Nh+KOQPT302iXlMXLbtDYKeAF99+1goumg2eXXiDyQlC/pd5NbQIW4BWBKydR5D3RT8A7zxocE3k2fmIaS353AVFrj0rXtC24muoW7gxAj+Yx2e+r06m2t2MjmZyM2ine69MIaixJ5QDTsz0ao13gXe+wV26BGvgVgeU3UV/OKrWauJ0mSVtP5r0D7jxHCyzkmsibEfav8eBSU5jS0tmtbvNbdjJvz23QpJG7OL+SlfHPZLAskW9q8nESt2HVVaW0YE9WDqJhgazCjxEurSL+J9sMZHZx/TpI7eZZg0//4aQ23966vWAHss+pzbdfpjqPo=
