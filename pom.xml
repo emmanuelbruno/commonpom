@@ -65,6 +65,17 @@
     <profiles>
         <!-- Three profiles to set the maven/docker repository/registry used to push/pull/deploy artifacts/images.
         -->
+	<profile>
+	  <id>stage-devel-bintray</id>
+	  <distributionManagement>
+            <repository>
+              <id>bintray-dptinfoutln-public</id>
+              <name>dptinfoutln-public</name>
+              <url>https://api.bintray.com/maven/dptinfoutln/public/common/;publish=1</url>
+            </repository>
+	  </distributionManagement>
+	</profile>
+	
         <profile>
             <id>stage-devel</id>
             <repositories>
