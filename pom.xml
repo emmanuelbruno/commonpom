@@ -644,6 +644,12 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-stage-plugin</artifactId>
+                    <version>1.0</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
