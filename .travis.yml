@@ -8,10 +8,11 @@ script:
   versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BUILD_NUMBER}
 - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc
   -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user clean install
-after_success:
-- docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc
-  -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -P stage-devel-bintray -Duser.home=/home/user
-  deploy
+deploy:
+  provider: script
+  script: cp .travis.settings.xml $HOME/.m2/settings.xml && docker run --rm -v $HOME/.m2:/home/user/.m2/repository
+    -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -P stage-devel-bintray
+    -Duser.home=/home/user deploy
 after_failure:
 - find target/it -name *.log -exec echo {} \; -exec cat {} \;
 branches:
@@ -20,7 +21,8 @@ branches:
 notifications:
   slack:
     secure: mxSioTACsN0R7yPDVNVhaxhh8/c4WUwJWd6CP2rxUTV2rP0P+NdLP24J1Pyl8zUHLhAkl4OaXA0k5lvuNFa7SygmUt8lnTm3CwzokM3H89Z3LIyi2Y1Qj+lYRkvFkyOAlqvrGt7ukN4kRKfGjaZDqSBleoWYWvY5Q0zY+OFZhutX8lNiuGpqaBQ4cUxa0rGnZxFvGoYOzDx3MwhgdJ1nP5GxTVfCpAMDXSyqGepP5o82gG5UCd0REKI7wsq93TrQgkQQ5LSfBcr9IymVvoES2JJF7V2ETRoAE9zulew08DUkVtBkgGZyXBd7T5uxkpvzigSm87D5yPuF+YxLXFLhD//MR01/uHk/Cg60StqrxKj92On9+D0got9IRQMiE3BWVQEPnLDtbvXzwJeqdSOuS7aEETN2Fq35SUZMKR19HI29rlYu6fSgqhYVvxlv2Hx8DKkrtfkuFVzDkrxhUZasZs2+7jBzR4qitvF4vSSVosNb9z4YVN1Axu0EjSo2DyLMRA6dEIVP+/T8ZbV4cI/KLAluDeC/tJ2/jkfKTxKbCO+4oq4bNnE3Ql+RUCdJnkm9gDjdSqIRBuMTbQlDuZLQ5utb5uIKG1d3TfSqwYyEzCl9dfggF0g2xTDBP7F4rq06KL5k1enVfz4u/IBN5tr1Rg2n0nl2TokKW0eIEdkME/s=
-env:
-  global:
-  - secure: XWyykrTI3xXQfn9uwnsZAzqdhfnWcD2q/VL8Dsu8c3sGTS83oTkFKaPRP7C/2GhH4NsfuSrNSiEfpEVv0wIFb7WVpabURw5sPW2FQciiIMaVX+6njHAuzsglYutmUoKThuO4Hj/3ldpIC+yzmNkQNTyJQmuy5LdTJ9OwAwUBE8Zu3Y1xTR+DgOxHESvkRTUTfjJpNxJ8EZZQuF6TBBsLrzWApUG2tncXpcfJry47yI75DSOGKBeY7C+R3c2s9kf4Rd06X7tH+hWCiYAPiRryeI50fYezgxHievk+hcIZu/tbm/9H/djW9SMbkJC1ovicvXT2xa6ivezwnH//iO8SwBudciynMINghUZ4M9/fqew+NF/e1tzQvmza15wYRkW5P8A4FeUjpHxIL039BSFKJrGx0EbaWGEQTqcbm2Dzlqwom9q7IantJwIKsPleFqvPwbaYkh+jIkzf3skX84UL18lnJL5txnKkW38OsQm0T6TcMVyqp7GUsAwlZD7rduLCWScHW8meC2/z33IuirlYP81RfHjBYEwyrIucY75hEAhJxfz4YT08BNrSgr3RusR3VnlHD1B/HPtQzYKWA4oLYcAZ4NIo2o/AIejOGPkUMWmSt3i8mf19F+y8vduRRKoH/ckDtdaqt6ElXc1rWObloe3jxKCzBruliKhp+tLLfPU=
-  - secure: FKK7agVNNCNr8zhJIFK+lbZQN6mEev9TxIIVxqAGwsj3+bB8i6/GTQMXCUhVFAltnSCVnciyAToCnlbvP0AbMr1xbdpK1omcKXrPSTH311LjaSUXsMNB4SofDWxVsH0cjJ7sii17AwRcuqaYTdyIvIV+MJSzH55aQjqMwG5/bZyld2cBBXpq3vUj21ATSM6hUr4Elf1uD+v9VPSaDhwpPE4h6vW/h5DGrvhY8XwxgMh6Yyh3tasBuAC8EpPM7vQZVCGw1i3viajO4dJk8CfwJzyHuBG0K3a16Ziosow36XuOQo0OrLE2jb5wPYY2GWn2ZUc5K6Lfvi0knVSuoK5b4gpQ84Ss9/LKL0DuJSJmlsiX7s+lcIfHQ2zPCyNWstLy3HoHlFCWSD1iZGy6/dCm7FKf+3/hSduKotCOc0ZZTFh9B9tKF7pkfD22NeOuiWrPP1TQYE/LfbeY3+Xer4u0Rxwt3Lj5A4fYf9yIS9OwMDKE0xO7cwYF2BuWPJkHWrnqoIjCxQiAmz87+g0krfhsmUq+ON9xOmkMXlsZjqeG848LYEe6aN0HnwnvlHLyXNMTStHKGpcJRHGYjWzaf/o33LRkXKZZanpgsQwEnPduwPgtz3BwMk7zcv2FwSX9jhUE4iDrklW8mGJoEOPiyvr+YnDIGYYieJ/0Hf9UaWKENu8=
+env: 
+sonar:
+  secure: Gtj32PYCIQEJFBzAK5t5tlKoBshdR3ht2vl4OfB7ML/HnAV4qxqarxugdpbbtG4lx+spEgjGLeAN5S5SM61yOx8iGv2lNHnJcmgipQJpvc6w2Y64bEZA9qO0LFNA12YIWf0BabahKgsjjuDCz4FcwiXVtGCr6v8mzhmVcgFfXz6OnkIb+yl8gUkk8Wr26XW191Nwsfzk9+nsyd/u9XIkiz6yzeZKx2mTupbhWTgfgKc7S+8QnKbFlb30L7eBoWqQYB8h+iuxylebkvIHH3CXA1JWkzNhTBGObFp1PbKFlFG8FzUhTMOMk4E5WtUV6WbyXxojQJY7G1tnd4mRi+cN8SXrf6BDJyadVPF0GfyiAvD6iDTIucPRw9HPCgTZ/mP/yZ8u/eDP2qMMhaB9rESg2LgB66miqSTE/p8gOiOBACzWHclxbJprbYIWrddSAD1Dlr03uKWW6MPS071Bjgt9F7RGmdj+JLTG1bwNDptMbRjtmqErM3+I0KKbuLqO7I7Bmi4l1a6J/8DLHFhJ3DZeSui392cC45Dol6/BHIs6MY2fpGBtq5noT4oi/e8VIdMhjA32SOS3zUsQgi7oMhLP3GrKpAO6MHHPSWAOGF4BQ+0LAWPmQrwlongqX5UeEtTZmjqbgWVk1TfoSWzRiLRclu1KHABjaPTB09HQL1/skMQ=
+bintray:
+  secure: F8XzHyFtB+oO2GwZuseKziam+6WJXwoA9f+jEFQSvT3V2vO1YvjRet4M2/zjQ5eJiGdT/1NmHOw8UhE4nQu5r6YQY9pcBpk+VhvVWwV9PcG6hLqDWxDB9wx6t0gxvbZ85TE+Aa3cUJ442d66L/Q7q1EDsIeB/aOxzLSP6SiQDvbfwLUQq50HyeAotDKOcpfVXJi8DH4SvblhGKLB+anZrRNXZ3g67ce1opQnG1kMAYQH7LqjbtqNGxrSKdI6ceS2l3clsMVTkQXK/eoUU151L6WodiSmQf2lwX5dSDlp+hjVAwMKEDvh5KMfSaETXHzI6/FDQBaQRMjM/QignRqXdryb2EIrgpuFBNPNHkCk++CTUpnQfXxZL3XsffUIWFBIzY1jgRoisuArXrNg5XzLsv1Kk9QF1B4KtNoLjfc0ajxjFdSUpBW2dZQpCh21LoFX4S5RHo/2/Od/h01yMtcAqsmnRaE5IfYUJua5VrFIp47OXxxJ/torT1IMWr2krk95cLdv4Dd8jdo2iYt/KMYxyKBJyjMcZR4+QGM04iTxVr/SgdTacSfgWeZ64Izp7t8oI6HdOzGd4rPPlTupmtPTgxnlaq9FSdOe5eaERu5A43Qk0mj/4Bc9c/yVgoaWODzfQAIzQvEcD5oUTswad/sb3EBaivy7fitjgcoyhFSehrw=
