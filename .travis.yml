@@ -1,0 +1,19 @@
+language: java
+jdk: oraclejdk8
+cache:
+  directories:
+  - "$HOME/.m2"
+
+script: mvn test -B
+
+deploy:
+  provider: bintray
+  file: target/bin/bintray.json
+  user: brunoe
+  key: "$BINTRAY_API_KEY"
+  on:
+    all_branches: true
+  
+env:
+  global:
+    secure: TJbZA0WnA2iPUeuV6UJMPJ8A2IRubQTfMtchxIB7GxoowyKTKS38tXH2U1ZGwGEb3FgtWRUStruzj6brLF43NiavZJSy4HHb+infIw/iCMAdNFvgLnJHIYiVqwWxD3gNbZRU0MhnKEPXFpliBCV7lwXIbABczd1cZFoOj9v9Se1XkN9gysgkqs/0gnic50VVEld8CdVYSv6Kz2rXzI12Fgy2ngxN1pmYauqSCWZCWhWwM3BaOXmUtP+e1NekOlD6lCY7uBM3/vjH9batKd0SUOarwHTJF2g89L8qAJDz8VEyL4u898RnVBXV1nQdfHaQUqa473txg+8HsGCCzxiYMDSozzT/NW9XXkfTYBCtgf5kwABPcpVLGJmhqamWzQ7ITkbNfEfPDPQGYgCYnWFRMUZKeey14M5adgVo5hN1x93s4+5Eu0e5GjzIHbMFGVrAk5atHBPQEmclh01yFm5nd5NYNoUON6a5J2+oA2ZiP3OrUe+e2qMkfOu6Q2Tigj0wrL6WaSlNaSYehUUKEkUREML0pSGKlQgu32JQf4fv2mih9AKoqX4Xa+jsXSTivtsFxhBDuoPd4sjZ949zvvwzX8/IJaVwDpQIJOkEOJjjvW75YygSporr3PU5E8pmVa66vh/fb5hfIZcq9VP7RVWNMGwROFGGVUY7k6XuqazD+mM=
