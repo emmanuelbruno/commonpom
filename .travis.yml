@@ -5,12 +5,12 @@ cache:
   - "$HOME/.m2"
 
 script:
-  - alias docker_maven=docker run --rm -v "$HOME/.m2":/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine
+  - alias docker_maven="docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine"
   - docker_maven mvn -Duser.home=/home/user mvn build-helper:parse-version versions:set -DnewVersion="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${env.TRAVIS_BUILD_NUMBER}"
   - docker_maven mvn -Duser.home=/home/user clean install
 
 after_success:
-  - alias docker_maven=docker run --rm -v "$HOME/.m2":/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine
+  - alias docker_maven="docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine"
   - docker_maven mvn -P stage-devel-bintray -Duser.home=/home/user deploy 
 after_failure:
   - find target/it -name *.log -exec echo {} \; -exec cat {} \;
