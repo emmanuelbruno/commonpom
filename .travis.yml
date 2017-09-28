@@ -6,7 +6,7 @@ cache:
 
 script:
   - alias docker_maven="docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user"
-  - docker_maven build-helper:parse-version versions:set -DnewVersion="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${env.TRAVIS_BUILD_NUMBER}"
+  - docker_maven build-helper:parse-version versions:set -DnewVersion="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${TRAVIS_BUILD_NUMBER}"
   - docker_maven clean install
 
 after_success:
