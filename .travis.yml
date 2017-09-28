@@ -1,26 +1,25 @@
 language: bash
-
 cache:
   directories:
   - "$HOME/.m2"
-
 script:
-  - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BUILD_NUMBER}
-  - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user clean install
-
+- docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc
+  -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user build-helper:parse-version
+  versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BUILD_NUMBER}
+- docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc
+  -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user clean install
 after_success:
-  - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -P stage-devel-bintray -Duser.home=/home/user deploy
-
+- docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc
+  -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -P stage-devel-bintray -Duser.home=/home/user
+  deploy
 after_failure:
-  - find target/it -name *.log -exec echo {} \; -exec cat {} \;
-
+- find target/it -name *.log -exec echo {} \; -exec cat {} \;
 branches:
   except:
-    - gh-pages
-
+  - gh-pages
+notifications:
+  slack:
+    secure: mxSioTACsN0R7yPDVNVhaxhh8/c4WUwJWd6CP2rxUTV2rP0P+NdLP24J1Pyl8zUHLhAkl4OaXA0k5lvuNFa7SygmUt8lnTm3CwzokM3H89Z3LIyi2Y1Qj+lYRkvFkyOAlqvrGt7ukN4kRKfGjaZDqSBleoWYWvY5Q0zY+OFZhutX8lNiuGpqaBQ4cUxa0rGnZxFvGoYOzDx3MwhgdJ1nP5GxTVfCpAMDXSyqGepP5o82gG5UCd0REKI7wsq93TrQgkQQ5LSfBcr9IymVvoES2JJF7V2ETRoAE9zulew08DUkVtBkgGZyXBd7T5uxkpvzigSm87D5yPuF+YxLXFLhD//MR01/uHk/Cg60StqrxKj92On9+D0got9IRQMiE3BWVQEPnLDtbvXzwJeqdSOuS7aEETN2Fq35SUZMKR19HI29rlYu6fSgqhYVvxlv2Hx8DKkrtfkuFVzDkrxhUZasZs2+7jBzR4qitvF4vSSVosNb9z4YVN1Axu0EjSo2DyLMRA6dEIVP+/T8ZbV4cI/KLAluDeC/tJ2/jkfKTxKbCO+4oq4bNnE3Ql+RUCdJnkm9gDjdSqIRBuMTbQlDuZLQ5utb5uIKG1d3TfSqwYyEzCl9dfggF0g2xTDBP7F4rq06KL5k1enVfz4u/IBN5tr1Rg2n0nl2TokKW0eIEdkME/s=
 env:
   global:
-    secure: TJbZA0WnA2iPUeuV6UJMPJ8A2IRubQTfMtchxIB7GxoowyKTKS38tXH2U1ZGwGEb3FgtWRUStruzj6brLF43NiavZJSy4HHb+infIw/iCMAdNFvgLnJHIYiVqwWxD3gNbZRU0MhnKEPXFpliBCV7lwXIbABczd1cZFoOj9v9Se1XkN9gysgkqs/0gnic50VVEld8CdVYSv6Kz2rXzI12Fgy2ngxN1pmYauqSCWZCWhWwM3BaOXmUtP+e1NekOlD6lCY7uBM3/vjH9batKd0SUOarwHTJF2g89L8qAJDz8VEyL4u898RnVBXV1nQdfHaQUqa473txg+8HsGCCzxiYMDSozzT/NW9XXkfTYBCtgf5kwABPcpVLGJmhqamWzQ7ITkbNfEfPDPQGYgCYnWFRMUZKeey14M5adgVo5hN1x93s4+5Eu0e5GjzIHbMFGVrAk5atHBPQEmclh01yFm5nd5NYNoUON6a5J2+oA2ZiP3OrUe+e2qMkfOu6Q2Tigj0wrL6WaSlNaSYehUUKEkUREML0pSGKlQgu32JQf4fv2mih9AKoqX4Xa+jsXSTivtsFxhBDuoPd4sjZ949zvvwzX8/IJaVwDpQIJOkEOJjjvW75YygSporr3PU5E8pmVa66vh/fb5hfIZcq9VP7RVWNMGwROFGGVUY7k6XuqazD+mM=
-  notifications:
-    slack:
-      secure: ekQXD4yhBuiGGM0z6O4mI/vleiMnf1VHMd2PKB6RbEgxRl0ATumQK9Jlm+MpmqRqUyDFT8778DU4UTWISpwezYQxzFMDFQX6TIgB6j+bDw5w1tbBJQu5K3TDIZQoex+V3y98o/7ZpvpFbvLUlQY5VgOa2wFQFzZ64ibjcT2utPfgZclKqNg6AeUk2Tb1zESolzg3aW2ShvhCrhaKcj28QQ6EN8vf/qUr0cdL10jvl+UWvA7WULZ6rybfmEYQPCAz9yXGzh/Fhj4TyMGM8Gp/QpC4zVhzFLbspH5FP0AYgLvdXDMulJxvWgMV8JmxqURsNIymFG5f22u4rHlaYcQLJ0+SomQqXSTruznpRqbL9Nh+KOQPT302iXlMXLbtDYKeAF99+1goumg2eXXiDyQlC/pd5NbQIW4BWBKydR5D3RT8A7zxocE3k2fmIaS353AVFrj0rXtC24muoW7gxAj+Yx2e+r06m2t2MjmZyM2ine69MIaixJ5QDTsz0ao13gXe+wV26BGvgVgeU3UV/OKrWauJ0mSVtP5r0D7jxHCyzkmsibEfav8eBSU5jS0tmtbvNbdjJvz23QpJG7OL+SlfHPZLAskW9q8nESt2HVVaW0YE9WDqJhgazCjxEurSL+J9sMZHZx/TpI7eZZg0//4aQ23966vWAHss+pzbdfpjqPo=
+    secure: XWyykrTI3xXQfn9uwnsZAzqdhfnWcD2q/VL8Dsu8c3sGTS83oTkFKaPRP7C/2GhH4NsfuSrNSiEfpEVv0wIFb7WVpabURw5sPW2FQciiIMaVX+6njHAuzsglYutmUoKThuO4Hj/3ldpIC+yzmNkQNTyJQmuy5LdTJ9OwAwUBE8Zu3Y1xTR+DgOxHESvkRTUTfjJpNxJ8EZZQuF6TBBsLrzWApUG2tncXpcfJry47yI75DSOGKBeY7C+R3c2s9kf4Rd06X7tH+hWCiYAPiRryeI50fYezgxHievk+hcIZu/tbm/9H/djW9SMbkJC1ovicvXT2xa6ivezwnH//iO8SwBudciynMINghUZ4M9/fqew+NF/e1tzQvmza15wYRkW5P8A4FeUjpHxIL039BSFKJrGx0EbaWGEQTqcbm2Dzlqwom9q7IantJwIKsPleFqvPwbaYkh+jIkzf3skX84UL18lnJL5txnKkW38OsQm0T6TcMVyqp7GUsAwlZD7rduLCWScHW8meC2/z33IuirlYP81RfHjBYEwyrIucY75hEAhJxfz4YT08BNrSgr3RusR3VnlHD1B/HPtQzYKWA4oLYcAZ4NIo2o/AIejOGPkUMWmSt3i8mf19F+y8vduRRKoH/ckDtdaqt6ElXc1rWObloe3jxKCzBruliKhp+tLLfPU=
