@@ -1,0 +1,32 @@
+<settings>  
+    <servers>
+	<server>
+          <id>bintray-dptinfoutln-public</id>
+          <username>brunoe</username>
+          <password>{$env.BINTRAY_API_KEY}</password>
+	</server>    
+    </servers>
+
+      
+    <pluginGroups>
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+    </pluginGroups>
+
+    <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.host.url>
+                    https://sonar.lsis.univ-tln.fr
+                </sonar.host.url>
+                <!-- generate a token in https://sonar.lsis.univ-tln.fr/account/security -->
+                <sonar.login>${env.SONAR_TOKEN}</sonar.login>
+            </properties>
+        </profile>
+
+    </profiles>
+
+</settings>
