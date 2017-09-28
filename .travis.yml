@@ -2,6 +2,8 @@ language: bash
 cache:
   directories:
   - "$HOME/.m2/repository"
+before_script:
+  - cp .travis.settings.xml $HOME/.m2/settings.xml
 script:
 - docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc
   -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -Duser.home=/home/user build-helper:parse-version
@@ -11,9 +13,7 @@ script:
 deploy:
   skip_cleanup: true
   provider: script
-  script: cp .travis.settings.xml $HOME/.m2/settings.xml && git add . && docker run
-    --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine
-    mvn -P stage-devel-bintray -Duser.home=/home/user deploy
+  script: docker run --rm -v $HOME/.m2:/home/user/.m2/repository -v $(pwd):/usr/src/mysrc -w /usr/src/mysrc  maven:3.3.9-jdk-8-alpine mvn -P stage-devel-bintray -Duser.home=/home/user deploy
   on:
     all_branches: true
 after_failure:
