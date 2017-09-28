@@ -4,21 +4,22 @@ cache:
   directories:
   - "$HOME/.m2/repository"
 before_script:
-  - cp .travis.settings.xml $HOME/.m2/settings.xml
+- cp .travis.settings.xml $HOME/.m2/settings.xml
 script:
-  - ./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BUILD_NUMBER}
-  - ./.travis.scripts/mvn.sh -Duser.home=/home/user clean install
+- "./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false
+  -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BUILD_NUMBER}"
+- "./.travis.scripts/mvn.sh clean verify"
 after_success:
-  - ./.travis.scripts/mvn.sh -P stage-devel-bintray -Duser.home=/home/user deploy
+- "./.travis.scripts/mvn.sh -P stage-devel-bintray deploy"
 after_failure:
-  - find target/it -name *.log -exec echo {} \; -exec cat {} \;
+- find target/it -name *.log -exec echo {} \; -exec cat {} \;
 branches:
   except:
-    - gh-pages
+  - gh-pages
 notifications:
   slack:
     secure: mxSioTACsN0R7yPDVNVhaxhh8/c4WUwJWd6CP2rxUTV2rP0P+NdLP24J1Pyl8zUHLhAkl4OaXA0k5lvuNFa7SygmUt8lnTm3CwzokM3H89Z3LIyi2Y1Qj+lYRkvFkyOAlqvrGt7ukN4kRKfGjaZDqSBleoWYWvY5Q0zY+OFZhutX8lNiuGpqaBQ4cUxa0rGnZxFvGoYOzDx3MwhgdJ1nP5GxTVfCpAMDXSyqGepP5o82gG5UCd0REKI7wsq93TrQgkQQ5LSfBcr9IymVvoES2JJF7V2ETRoAE9zulew08DUkVtBkgGZyXBd7T5uxkpvzigSm87D5yPuF+YxLXFLhD//MR01/uHk/Cg60StqrxKj92On9+D0got9IRQMiE3BWVQEPnLDtbvXzwJeqdSOuS7aEETN2Fq35SUZMKR19HI29rlYu6fSgqhYVvxlv2Hx8DKkrtfkuFVzDkrxhUZasZs2+7jBzR4qitvF4vSSVosNb9z4YVN1Axu0EjSo2DyLMRA6dEIVP+/T8ZbV4cI/KLAluDeC/tJ2/jkfKTxKbCO+4oq4bNnE3Ql+RUCdJnkm9gDjdSqIRBuMTbQlDuZLQ5utb5uIKG1d3TfSqwYyEzCl9dfggF0g2xTDBP7F4rq06KL5k1enVfz4u/IBN5tr1Rg2n0nl2TokKW0eIEdkME/s=
 env:
   global:
-    - secure: Su60HEHpztuJkdfcTQkZNamPg6pGNPNkumBAMvIZTlUr9WP4L/6TxGZLR6N1Ov8dxIvb4dxSU6vfJp76g1m6botN1KFfCiUu2ty9vciaXuz7fj8WJq71N5zEW0yBTEu4/+Xzb71QY5w0bY5dvxLl7TVmoqeacZSIQNZWaKXRPKMXVhV+b6JcsJj/uVADEY+LRGCY81Oy5KhkCL9WbNl8j0/U5f5Fvdf3eTI/3aFG7XxreidXtoTCzMvaXAUSCXTw9TC1wLzZDHFC1PkhoLkc3wiao77KrPLnaJ1NCHcA6p9BRChRI4p9v4s6OG2XkTWX4sw2f/2sPsXehCO/t9FFNzL2jeof8Xt63Z+PoYXKbpCOdGUMDROoEvHohpNhmHEGfhnMhOxxDsEG0pjxpB8B+hsnB9UWFUwLutEuh76hNrRzfB2qBYMAIylqFMZSbg8/0Hh6xQgK2aUwb4gtQxHj0NpRa7rnn5Rdu1cnMAqxUvcki7MtmzxNZbw7/a0GildmvUC74xuXSXcGLBeIE6Np4ZbvRQvb6RlgDGzQrUxvqIAjHyXBZpm6rrp4vHuedzoQXZFCiX0mi1hBWlyEM7t6er3mMSCogHpO8FHRljmZZiOJJbRcaD6+L6tA/Tvs7M1sHdgTY8vOa2GDyU/w+shV3iwLw1WLXJDt7dmW0+K0b7I=
-    - secure: nhQjenrseKFDQWyoqk3O5RmWzqrvZe6uvS4ScsprfsPJlXWK92GsWZJgK4dTkb6LxiVfITEhda4qeDZQuKEAtzTekeT5L76dXADT+2LnwtIbYINrIsS0VeZaCp/Df3TJdRIScVemfIHu15oaL+Ae2dmPOsmaw8ruhR9Sjv1Yd8sPdZcgkyEsFu9pOfAiuUQC9HPjtQRhS/xc1niBm727KjAF7CoMdQ682rs4+VvOsRC1y0bk3NcWeulHstzOZwpSSrEU4P4YDgWu3BtXTnh7M/sn+JX5xyL8SFCzUtRZcaPzqNnK/LZxOkrNlX8dU0o+i1e8bOuiJLPxbfNGKCvnjkDgJ9fyijmfJtOJ9hHqQbXszA1GVheGcIlBhKz0NRwbjrmLrTikV9ZYSZgVIzZMMunz1R/vCjTPBiV0mFgFAakpr8Kf620ATvv+w7dlf8Z5HJpFYgNB32MYjsfbom1ooyFCP833YN9lyR6CJiAb6rwjWHfqOpr98Kp1EhNLD0BmvzW+541iUdEah3ESMGn8VmlrabchYil8tmgf6kjcxfIsnMBCCBr4yJ6RlZpDY4rE4evn1zLsFD7A+7ehtnj97cqm+AgHFsH1ssYWNACrYqWQTL6UMp5mGy7tQA3GV8VlNq/K4mmpClV0fNvXIgp1uarRvpiVDWKBaoLNg0JUAZY=
+  - secure: Su60HEHpztuJkdfcTQkZNamPg6pGNPNkumBAMvIZTlUr9WP4L/6TxGZLR6N1Ov8dxIvb4dxSU6vfJp76g1m6botN1KFfCiUu2ty9vciaXuz7fj8WJq71N5zEW0yBTEu4/+Xzb71QY5w0bY5dvxLl7TVmoqeacZSIQNZWaKXRPKMXVhV+b6JcsJj/uVADEY+LRGCY81Oy5KhkCL9WbNl8j0/U5f5Fvdf3eTI/3aFG7XxreidXtoTCzMvaXAUSCXTw9TC1wLzZDHFC1PkhoLkc3wiao77KrPLnaJ1NCHcA6p9BRChRI4p9v4s6OG2XkTWX4sw2f/2sPsXehCO/t9FFNzL2jeof8Xt63Z+PoYXKbpCOdGUMDROoEvHohpNhmHEGfhnMhOxxDsEG0pjxpB8B+hsnB9UWFUwLutEuh76hNrRzfB2qBYMAIylqFMZSbg8/0Hh6xQgK2aUwb4gtQxHj0NpRa7rnn5Rdu1cnMAqxUvcki7MtmzxNZbw7/a0GildmvUC74xuXSXcGLBeIE6Np4ZbvRQvb6RlgDGzQrUxvqIAjHyXBZpm6rrp4vHuedzoQXZFCiX0mi1hBWlyEM7t6er3mMSCogHpO8FHRljmZZiOJJbRcaD6+L6tA/Tvs7M1sHdgTY8vOa2GDyU/w+shV3iwLw1WLXJDt7dmW0+K0b7I=
+  - secure: nhQjenrseKFDQWyoqk3O5RmWzqrvZe6uvS4ScsprfsPJlXWK92GsWZJgK4dTkb6LxiVfITEhda4qeDZQuKEAtzTekeT5L76dXADT+2LnwtIbYINrIsS0VeZaCp/Df3TJdRIScVemfIHu15oaL+Ae2dmPOsmaw8ruhR9Sjv1Yd8sPdZcgkyEsFu9pOfAiuUQC9HPjtQRhS/xc1niBm727KjAF7CoMdQ682rs4+VvOsRC1y0bk3NcWeulHstzOZwpSSrEU4P4YDgWu3BtXTnh7M/sn+JX5xyL8SFCzUtRZcaPzqNnK/LZxOkrNlX8dU0o+i1e8bOuiJLPxbfNGKCvnjkDgJ9fyijmfJtOJ9hHqQbXszA1GVheGcIlBhKz0NRwbjrmLrTikV9ZYSZgVIzZMMunz1R/vCjTPBiV0mFgFAakpr8Kf620ATvv+w7dlf8Z5HJpFYgNB32MYjsfbom1ooyFCP833YN9lyR6CJiAb6rwjWHfqOpr98Kp1EhNLD0BmvzW+541iUdEah3ESMGn8VmlrabchYil8tmgf6kjcxfIsnMBCCBr4yJ6RlZpDY4rE4evn1zLsFD7A+7ehtnj97cqm+AgHFsH1ssYWNACrYqWQTL6UMp5mGy7tQA3GV8VlNq/K4mmpClV0fNvXIgp1uarRvpiVDWKBaoLNg0JUAZY=
