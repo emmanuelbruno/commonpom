@@ -3,7 +3,7 @@
 	<server>
           <id>bintray-dptinfoutln-public</id>
           <username>brunoe</username>
-          <password>{$env.BINTRAY_API_KEY}</password>
+          <password>${env.BINTRAY_API_KEY}</password>
 	</server>    
     </servers>
 
