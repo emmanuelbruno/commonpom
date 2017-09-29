@@ -485,6 +485,8 @@
                     <version>3.6</version>
                     <configuration>
                         <locales>en,fr</locales>
+                        <skip>true</skip>
+                        <skipDeploy>true</skipDeploy>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -732,13 +734,6 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                    <skipDeploy>true</skipDeploy>
-                </configuration>
-            </plugin>
 
         </plugins>
 
