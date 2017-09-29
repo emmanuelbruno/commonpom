@@ -58,9 +58,10 @@
     </issueManagement>
 
     <ciManagement>
-        <system>Jenkins</system>
-        <!--url>https://jenkins.lsis.univ-tln.fr/job/${github.account}/job/${projectShortName}</url-->
-        <!--url>https://jenkins.lsis.univ-tln.fr/job/${github.account}/job/${projectShortName}</url-->
+        <!--system>Jenkins</system>
+        <url>https://jenkins.lsis.univ-tln.fr/job/${github.account}/job/${projectShortName}</url-->
+        <system>Travis</system>
+        <url>https://travis-ci.org/${github.account}/${projectShortName}</url>
     </ciManagement>
 
     <profiles>
