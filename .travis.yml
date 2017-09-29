@@ -3,6 +3,7 @@ sudo: required
 cache:
   directories:
   - "$HOME/.m2/repository"
+  - "$HOME/.sonar/cache"
 before_script:
 - cp .travis.settings.xml $HOME/.m2/settings.xml
 script:
@@ -18,6 +19,11 @@ branches:
   except:
   - gh-pages
 notifications:
+  email:
+    recipients:
+      - emmanuel.bruno@univ-tln.fr
+    on_success: never # default: change
+    on_failure: never # default: always
   slack:
     secure: mxSioTACsN0R7yPDVNVhaxhh8/c4WUwJWd6CP2rxUTV2rP0P+NdLP24J1Pyl8zUHLhAkl4OaXA0k5lvuNFa7SygmUt8lnTm3CwzokM3H89Z3LIyi2Y1Qj+lYRkvFkyOAlqvrGt7ukN4kRKfGjaZDqSBleoWYWvY5Q0zY+OFZhutX8lNiuGpqaBQ4cUxa0rGnZxFvGoYOzDx3MwhgdJ1nP5GxTVfCpAMDXSyqGepP5o82gG5UCd0REKI7wsq93TrQgkQQ5LSfBcr9IymVvoES2JJF7V2ETRoAE9zulew08DUkVtBkgGZyXBd7T5uxkpvzigSm87D5yPuF+YxLXFLhD//MR01/uHk/Cg60StqrxKj92On9+D0got9IRQMiE3BWVQEPnLDtbvXzwJeqdSOuS7aEETN2Fq35SUZMKR19HI29rlYu6fSgqhYVvxlv2Hx8DKkrtfkuFVzDkrxhUZasZs2+7jBzR4qitvF4vSSVosNb9z4YVN1Axu0EjSo2DyLMRA6dEIVP+/T8ZbV4cI/KLAluDeC/tJ2/jkfKTxKbCO+4oq4bNnE3Ql+RUCdJnkm9gDjdSqIRBuMTbQlDuZLQ5utb5uIKG1d3TfSqwYyEzCl9dfggF0g2xTDBP7F4rq06KL5k1enVfz4u/IBN5tr1Rg2n0nl2TokKW0eIEdkME/s=
 env:
