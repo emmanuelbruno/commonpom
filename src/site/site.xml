@@ -1,0 +1,105 @@
+<project>
+    <!--skin>
+        <groupId>lt.velykis.maven.skins</groupId>
+        <artifactId>reflow-maven-skin</artifactId>
+        <version>1.1.1</version>
+    </skin>
+    <custom>
+        <reflowSkin>
+            <theme>bootswatch-spacelab</theme>
+            <highlightJs>true</highlightJs>
+            <brand>
+                <name>My Project</name>
+                <href>http://github.com/andriusvelykis/reflow-maven-skin</href>
+            </brand>
+            <slogan>Super interesting project doing good things.</slogan>
+            <titleTemplate>%2$s | %1$s</titleTemplate>
+            <toc>top</toc>
+            <topNav>Download|reports</topNav>
+            <bottomNav>
+                <column>Main|Download</column>
+                <column>Documentation</column>
+                <column>reports|modules</column>
+            </bottomNav>
+            <bottomDescription>
+                This is a very good project doing interesting and valuable things.
+            </bottomDescription>
+            <pages>
+                <index project="project-id">
+                    <shortTitle>Welcome</shortTitle>
+                    <breadcrumbs>false</breadcrumbs>
+                    <toc>false</toc>
+                    <sections>
+                        <carousel/>
+                        <body/>
+                        <sidebar/>
+                        <thumbs>2</thumbs>
+                        <columns>3</columns>
+                    </sections>
+                </index>
+                <developer-info>
+                    <toc>sidebar</toc>
+                </developer-info>
+            </pages>
+        </reflowSkin>
+    </custom-->
+
+    <skin>
+          <groupId>org.apache.maven.skins</groupId>
+          <artifactId>maven-fluido-skin</artifactId>
+          <version>1.6</version>
+      </skin>
+      <custom>
+          <fluidoSkin>
+              <topBarEnabled>false</topBarEnabled>
+              <sideBarEnabled>true</sideBarEnabled>
+
+              <!--topBarContainerStyle>width: 90%;</topBarContainerStyle>
+              <navBarStyle>navbar-inverse</navBarStyle>
+
+              <gitHub>
+                  <projectId>emmanuelbruno/helloworld</projectId>
+                  <ribbonOrientation>right</ribbonOrientation>
+                  <ribbonColor>gray</ribbonColor>
+              </gitHub-->
+
+              <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+
+          </fluidoSkin>
+      </custom>
+
+    <body>
+        <menu name="Overview">
+            <item name="Readme" href="readme.html"/>
+            <item name="Usage" href="usage.html"/>
+            <item name="Team" href="team-list.html"/>
+            <item name="Summary" href="project-summary.html"/>
+            <item name="Structure" href="index.html"/>
+        </menu>
+
+        <menu name="Documentation">
+            <item name="Sources" href="source-repository.html"/>
+            <item name="Javadoc" href="apidocs/index.html"/>
+            <item name="Testdoc" href="testapidocs/index.html"/>
+        </menu>
+
+        <menu name="Documentation">
+            <item name="Dependencies" href="dependency-info.html"/>
+            <item name="Convergence" href="dependency-convergence.html"/>
+            <item name="Plugins" href="plugins.html"/>
+            <!--item name="Plu" href="plugin-management.html"/-->
+        </menu>
+
+        <menu name="Activity">
+            <item name="Changelog" href="changelog.html"/>
+            <item name="Files" href="file-activity.html"/>
+            <item name="Developpers" href="dev-activity.html"/>
+            <item name="C.I." href="integration.html"/>
+            <item name="Issues" href="issue-tracking.html"/>
+        </menu>
+
+        <!-- menu ref="parent" /-->
+        <!-- menu ref="modules" /-->
+        <!-- menu ref="reports"/ -->
+    </body>
+</project>
