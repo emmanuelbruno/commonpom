@@ -26,7 +26,8 @@ after_success:
 deploy:
   provider: script
   script: ./.travis.scripts/mvn.sh -P stage-devel-bintray deploy
-
+  all_branches: true
+  
 after_failure:
   - find target/it -name *.log -exec echo {} \; -exec cat {} \;
 
