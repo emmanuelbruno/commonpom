@@ -17,9 +17,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <sonar.host.url>
-                    https://sonar.lsis.univ-tln.fr
-                </sonar.host.url>
+                <sonar.host.url>https://sonar.lsis.univ-tln.fr</sonar.host.url>
                 <!-- generate a token in https://sonar.lsis.univ-tln.fr/account/security -->
                 <sonar.login>298ed3909f8081b7abb2eefdb9a75940ff0537ee</sonar.login>
             </properties>
