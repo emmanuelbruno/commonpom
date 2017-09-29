@@ -15,14 +15,14 @@ before_script:
 #the main build script
 script:
   # adds branch name except for master.
-  - test  $BRANCH != "master" && "./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}" && "./.travis.scripts/mvn.sh clean verify"
+  - test  ${TRAVIS_BRANCH} != "master" && "./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}" && "./.travis.scripts/mvn.sh clean verify -B -e -V"
 
 
 after_success:
   #quality insurance on master, release and develop branches
-  - test  $BRANCH = "master" -o $BRANCH = "release" -o $BRANCH = "devel" && "./.travis.scripts/mvn.sh sonar:sonar"
+  - test  ${TRAVIS_BRANCH} = "master" -o ${TRAVIS_BRANCH} = "release" -o ${TRAVIS_BRANCH} = "devel" && "./.travis.scripts/mvn.sh sonar:sonar"
   #update github site
-  - test  $BRANCH = "master" && "./.travis.scripts/mvn.sh -P github-site site"
+  - test  ${TRAVIS_BRANCH} = "master" && "./.travis.scripts/mvn.sh -P github-site site"
 
 deploy:
   provider: script
