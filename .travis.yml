@@ -28,7 +28,7 @@ after_success:
 
 deploy:
   provider: script
-  script: ./.travis.scripts/mvn.sh -Dmaven.site.deploy.skip=true -P stage-devel-bintray deploy
+  script: ./.travis.scripts/mvn.sh -Dmaven.site.skip=true -P stage-devel-bintray deploy
   skip_cleanup: true
   on:
     all_branches: true
