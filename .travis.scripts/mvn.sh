@@ -1,4 +1,7 @@
 #!/bin/sh
+echo "=HOME> "${USER_HOME_DIR}
+echo "=SONAR> "${SONAR_TOKEN}
+echo "=BINTRAY> "${BINTRAY_API_KEY}
 docker run \
        --rm \
        -v $HOME/.sonar/cache:$USER_HOME_DIR/.sonar/cache \
