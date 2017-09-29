@@ -485,6 +485,7 @@
                     <version>3.6</version>
                     <configuration>
                         <locales>en,fr</locales>
+                        <skipDeploy>true</skipDeploy>
                     </configuration>
                     <dependencies>
                         <dependency>
