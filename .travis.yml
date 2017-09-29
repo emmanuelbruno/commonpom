@@ -24,11 +24,11 @@ after_success:
   #update github site on master branch
   - test  ${TRAVIS_BRANCH} = "master" && ./.travis.scripts/mvn.sh -P github-site site
   # CREATE GIT TAG
-  - ./.travis.scripts/mvn.sh build-helper:parse-version scm:checkin -Dmessage='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
+  # - ./.travis.scripts/mvn.sh build-helper:parse-version scm:checkin -Dmessage='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
 
 deploy:
   provider: script
-  script: ./.travis.scripts/mvn.sh -P stage-devel-bintray deploy
+  script: ./.travis.scripts/mvn.sh -Dmaven.site.deploy.skip=true -P stage-devel-bintray deploy
   skip_cleanup: true
   on:
     all_branches: true
