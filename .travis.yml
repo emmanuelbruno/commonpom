@@ -9,6 +9,7 @@ script:
 - "./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false
   -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BUILD_NUMBER}"
 - "./.travis.scripts/mvn.sh clean verify"
+- "./.travis.scripts/mvn.sh sonar:sonar"
 after_success:
 - "./.travis.scripts/mvn.sh -P stage-devel-bintray deploy"
 after_failure:
