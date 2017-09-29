@@ -6,5 +6,6 @@ docker run \
        -w /usr/src/mysrc \
        maven:3.3.9-jdk-8-alpine \
        mvn \
-       -s /home/user/.m2/settings.xml \       
-       -Duser.home=/home/user $*
+       -Duser.home=/home/user \
+       --settings /home/user/.m2/settings.xml \
+       $*
