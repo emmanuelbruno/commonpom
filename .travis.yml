@@ -23,6 +23,8 @@ after_success:
   - test  ${TRAVIS_BRANCH} = "master" -o ${TRAVIS_BRANCH} = "release" -o ${TRAVIS_BRANCH} = "devel" && ./.travis.scripts/mvn.sh sonar:sonar
   #update github site on master branch
   - test  ${TRAVIS_BRANCH} = "master" && ./.travis.scripts/mvn.sh -P github-site site
+  # CREATE GIT TAG
+  - mvn build-helper:parse-version scm:checkin -Dmessage='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
 
 deploy:
   provider: script
