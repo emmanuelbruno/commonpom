@@ -1,7 +1,7 @@
 #!/bin/sh
 docker run \
        --rm \
-       -v $HOME/.sonar/cache:$USER_HOME_DIR/.sonar/cache
+       -v $HOME/.sonar/cache:$USER_HOME_DIR/.sonar/cache \
        -v $HOME/.m2:$USER_HOME_DIR/.m2 \
        -v $(pwd):/usr/src/mysrc \
        -w /usr/src/mysrc \
