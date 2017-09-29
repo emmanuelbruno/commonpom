@@ -1,23 +1,39 @@
 language: bash
+
 sudo: required
+
+#cache maven artifacts and sonar plugin to speed up build
 cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.sonar/cache"
+
+#install the user maven settings
 before_script:
-- cp .travis.settings.xml $HOME/.m2/settings.xml
+  - cp .travis.settings.xml $HOME/.m2/settings.xml
+
+#the main build script
 script:
-- "./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false
-  -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}${TRAVIS_BUILD_NUMBER}"
-- "./.travis.scripts/mvn.sh clean verify"
-- "./.travis.scripts/mvn.sh sonar:sonar"
+  # adds branch name except for master.
+  - test  $BRANCH != "master" && "./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}" && "./.travis.scripts/mvn.sh clean verify"
+
+
 after_success:
+  #quality insurance on master, release and develop branches
+  -  test  $BRANCH = "master" -o $BRANCH = "devel" -o $BRANCH = "release" && "./.travis.scripts/mvn.sh sonar:sonar"
+  #update github site
+  mvn -P github-site site
+deploy:
+
 - "./.travis.scripts/mvn.sh -P stage-devel-bintray deploy"
+
 after_failure:
 - find target/it -name *.log -exec echo {} \; -exec cat {} \;
+
 branches:
   except:
   - gh-pages
+
 notifications:
   email:
     recipients:
@@ -26,6 +42,7 @@ notifications:
     on_failure: never # default: always
   slack:
     secure: mxSioTACsN0R7yPDVNVhaxhh8/c4WUwJWd6CP2rxUTV2rP0P+NdLP24J1Pyl8zUHLhAkl4OaXA0k5lvuNFa7SygmUt8lnTm3CwzokM3H89Z3LIyi2Y1Qj+lYRkvFkyOAlqvrGt7ukN4kRKfGjaZDqSBleoWYWvY5Q0zY+OFZhutX8lNiuGpqaBQ4cUxa0rGnZxFvGoYOzDx3MwhgdJ1nP5GxTVfCpAMDXSyqGepP5o82gG5UCd0REKI7wsq93TrQgkQQ5LSfBcr9IymVvoES2JJF7V2ETRoAE9zulew08DUkVtBkgGZyXBd7T5uxkpvzigSm87D5yPuF+YxLXFLhD//MR01/uHk/Cg60StqrxKj92On9+D0got9IRQMiE3BWVQEPnLDtbvXzwJeqdSOuS7aEETN2Fq35SUZMKR19HI29rlYu6fSgqhYVvxlv2Hx8DKkrtfkuFVzDkrxhUZasZs2+7jBzR4qitvF4vSSVosNb9z4YVN1Axu0EjSo2DyLMRA6dEIVP+/T8ZbV4cI/KLAluDeC/tJ2/jkfKTxKbCO+4oq4bNnE3Ql+RUCdJnkm9gDjdSqIRBuMTbQlDuZLQ5utb5uIKG1d3TfSqwYyEzCl9dfggF0g2xTDBP7F4rq06KL5k1enVfz4u/IBN5tr1Rg2n0nl2TokKW0eIEdkME/s=
+
 env:
   global:
   - secure: Su60HEHpztuJkdfcTQkZNamPg6pGNPNkumBAMvIZTlUr9WP4L/6TxGZLR6N1Ov8dxIvb4dxSU6vfJp76g1m6botN1KFfCiUu2ty9vciaXuz7fj8WJq71N5zEW0yBTEu4/+Xzb71QY5w0bY5dvxLl7TVmoqeacZSIQNZWaKXRPKMXVhV+b6JcsJj/uVADEY+LRGCY81Oy5KhkCL9WbNl8j0/U5f5Fvdf3eTI/3aFG7XxreidXtoTCzMvaXAUSCXTw9TC1wLzZDHFC1PkhoLkc3wiao77KrPLnaJ1NCHcA6p9BRChRI4p9v4s6OG2XkTWX4sw2f/2sPsXehCO/t9FFNzL2jeof8Xt63Z+PoYXKbpCOdGUMDROoEvHohpNhmHEGfhnMhOxxDsEG0pjxpB8B+hsnB9UWFUwLutEuh76hNrRzfB2qBYMAIylqFMZSbg8/0Hh6xQgK2aUwb4gtQxHj0NpRa7rnn5Rdu1cnMAqxUvcki7MtmzxNZbw7/a0GildmvUC74xuXSXcGLBeIE6Np4ZbvRQvb6RlgDGzQrUxvqIAjHyXBZpm6rrp4vHuedzoQXZFCiX0mi1hBWlyEM7t6er3mMSCogHpO8FHRljmZZiOJJbRcaD6+L6tA/Tvs7M1sHdgTY8vOa2GDyU/w+shV3iwLw1WLXJDt7dmW0+K0b7I=
