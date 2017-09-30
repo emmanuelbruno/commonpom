@@ -20,7 +20,7 @@ script:
 - "./.travis.scripts/mvn.sh -Dmaven.site.skip=true clean verify -B -e -V"
 after_success:
 - |
-  if [[ "${TRAVIS_BRANCH}" == "master" || "${TRAVIS_BRANCH}" == release-* || "${TRAVIS_BRANCH}" == "development"]]; then
+  if [[ "${TRAVIS_BRANCH}" == "master" ]] || [[ "${TRAVIS_BRANCH}" == release-* ]] || [[ "${TRAVIS_BRANCH}" == "development" ]]; then
     ./.travis.scripts/mvn.sh sonar:sonar
   fi
 - |
