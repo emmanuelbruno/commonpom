@@ -19,7 +19,7 @@ script:
     QUALIFIER=-frozen-${TRAVIS_BUILD_NUMBER}
   elif [[ "${TRAVIS_BRANCH}" == "development" ]]; then
     QUALIFIER=-dev-${TRAVIS_BUILD_NUMBER}
-  elif [[ "${TRAVIS_BRANCH}" == "master" ]]; then
+  elif [[ "${TRAVIS_BRANCH}" == v[0-9]* ]]; then
     QUALIFIER=""
   else
     QUALIFIER=-${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
@@ -27,11 +27,11 @@ script:
 - "./.travis.scripts/mvn.sh -Dmaven.site.skip=true clean verify -B -e -V"
 after_success:
 - |
-  if [[ "${TRAVIS_BRANCH}" == "master" ]] || [[ "${TRAVIS_BRANCH}" == release-* ]] || [[ "${TRAVIS_BRANCH}" == "development" ]]; then
+  if [[ "${TRAVIS_BRANCH}" == v[0-9]* ]] || [[ "${TRAVIS_BRANCH}" == release-* ]] || [[ "${TRAVIS_BRANCH}" == "development" ]]; then
     ./.travis.scripts/mvn.sh sonar:sonar
   fi
 - |
-  if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
+  if [[ "${TRAVIS_BRANCH}" == v[0-9]* ]]; then
     ./.travis.scripts/mvn.sh -P github-site site  fi
 deploy:
   provider: script
