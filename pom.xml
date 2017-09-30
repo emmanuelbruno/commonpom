@@ -568,7 +568,7 @@
                              server  -->
                         <noDeploy>true</noDeploy>
 
-                        <!-- squash>true</squash -->
+                        <squash>true</squash>
 
                         <scmCommentPrefix>[gitflow]</scmCommentPrefix>
 
@@ -584,7 +584,7 @@
                             <featureBranchPrefix>feature-</featureBranchPrefix>
                             <releaseBranchPrefix>release-</releaseBranchPrefix>
                             <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
-                            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+                            <versionTagPrefix>v</versionTagPrefix>
                         </flowInitContext>
                     </configuration>
                 </plugin>

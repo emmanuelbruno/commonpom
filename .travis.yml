@@ -33,8 +33,9 @@ deploy:
   on:
     all_branches: true
 branches:
-  except:
+  except: # web site and version tag
   - gh-pages
+  - /^v[0-9]/
 notifications:
   email:
     recipients:
