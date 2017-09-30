@@ -6,8 +6,8 @@ cache:
   - "$HOME/.sonar/cache"
 install:
 #ignore gitflow commits except version tag
-  - |
-  if [[ ${TRAVIS_COMMIT_MESSAGE} == "[gitflow]"* ]] && [[ "${TRAVIS_BRANCH}" != v[0-9]* ]]; then
+- |
+  if [[ "${TRAVIS_COMMIT_MESSAGE}" == "[gitflow]"* ]] && [[ "${TRAVIS_BRANCH}" != v[0-9]* ]]; then
     false
   fi
 before_script:
