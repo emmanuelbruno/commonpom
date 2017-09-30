@@ -80,7 +80,7 @@
         </profile>
 
         <profile>
-            <id>stage-devel</id>
+            <id>stage-devel-nexus</id>
             <repositories>
                 <repository>
                     <id>lsis-nexus-${lsisnexus.login}</id>

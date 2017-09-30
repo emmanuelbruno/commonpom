@@ -8,6 +8,14 @@
       <username>brunoe</username>
       <password>${env.BINTRAY_API_KEY}</password>
     </server>
+
+    <server>
+      <id>lsis-nexus</id>
+      <!-- ATTENTION UTILISER L'EMAIL UTLN -->
+      <username>${env.UTLN_EMAIL}</username>
+      <password>${env.UTLN_LOGIN}</password>
+    </server>
+
   </servers>
 
   <profiles>
