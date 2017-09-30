@@ -13,7 +13,7 @@
       <id>lsis-nexus</id>
       <!-- ATTENTION UTILISER L'EMAIL UTLN -->
       <username>${env.UTLN_EMAIL}</username>
-      <password>${env.UTLN_LOGIN}</password>
+      <password>${env.UTLN_PASSWORD}</password>
     </server>
 
   </servers>
