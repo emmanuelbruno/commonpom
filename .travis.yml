@@ -9,10 +9,13 @@ before_script:
 script:
 - |
   if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
-     ./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'release-${TRAVIS_BUILD_NUMBER}
-  elif [[ "${TRAVIS_BRANCH}" != "master" ]]; then
-     ./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
-  fi
+    QUALIFIER=frozen-${TRAVIS_BUILD_NUMBER}
+    elif [[ "${TRAVIS_BRANCH}" != "development" ]]; then
+        QUALIFIER=dev-${TRAVIS_BUILD_NUMBER}
+        elif [[ "${TRAVIS_BRANCH}" != "master" ]]; then
+            QUALIFIER=""
+            elif QUALIFIER=${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
+  fi && ./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${QUALIFIER}
 - "./.travis.scripts/mvn.sh -Dmaven.site.skip=true clean verify -B -e -V"
 after_success:
 - |
