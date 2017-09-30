@@ -4,12 +4,13 @@ cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.sonar/cache"
-install:
+before_install:
 #ignore gitflow commits except version tag
 - |
   if [[ "${TRAVIS_COMMIT_MESSAGE}" == "[gitflow]"* ]] && [[ "${TRAVIS_BRANCH}" != v[0-9]* ]]; then
-    false
+    travis_terminate 0
   fi
+
 before_script:
 - cp .travis.settings.xml $HOME/.m2/settings.xml
 script:
@@ -41,6 +42,7 @@ deploy:
 branches:
   except: # web site and version tag
   - gh-pages
+  - master
 #  - /^v[0-9]/
 notifications:
   email:
