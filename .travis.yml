@@ -7,21 +7,31 @@ cache:
 before_script:
 - cp .travis.settings.xml $HOME/.m2/settings.xml
 script:
-- test  ${TRAVIS_BRANCH} != "master" && ./.travis.scripts/mvn.sh build-helper:parse-version
-  versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
+- |
+  if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
+    QUALIFIER=frozen-${TRAVIS_BUILD_NUMBER}
+  elif [[ "${TRAVIS_BRANCH}" != "development" ]]; then
+    QUALIFIER=dev-${TRAVIS_BUILD_NUMBER}
+  elif [[ "${TRAVIS_BRANCH}" != "master" ]]; then
+    QUALIFIER=""
+  else
+    QUALIFIER=${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
+  fi && ./.travis.scripts/mvn.sh build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-'${QUALIFIER}
 - "./.travis.scripts/mvn.sh -Dmaven.site.skip=true clean verify -B -e -V"
 after_success:
-- test  ${TRAVIS_BRANCH} = "master" -o ${TRAVIS_BRANCH} = "release" -o ${TRAVIS_BRANCH}
-  = "devel" && ./.travis.scripts/mvn.sh sonar:sonar
-- test  ${TRAVIS_BRANCH} = "master" && ./.travis.scripts/mvn.sh -P github-site site
+- |
+  if [[ "${TRAVIS_BRANCH}" == "master" || "${TRAVIS_BRANCH}" == "release" || "${TRAVIS_BRANCH}" == "devel"]]; then
+    ./.travis.scripts/mvn.sh sonar:sonar
+  fi
+- |
+  if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
+    ./.travis.scripts/mvn.sh -P github-site site  fi
 deploy:
   provider: script
   script: "./.travis.scripts/mvn.sh -Dmaven.site.skip=true -P stage-devel-nexus deploy"
   skip_cleanup: true
   on:
     all_branches: true
-after_failure:
-- find target/it -name *.log -exec echo {} \; -exec cat {} \;
 branches:
   except:
   - gh-pages
