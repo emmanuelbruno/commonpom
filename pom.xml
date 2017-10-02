@@ -73,7 +73,7 @@
                 <repository>
                     <id>bintray-dptinfoutln-public</id>
                     <name>dptinfoutln-public</name>
-                    <url>https://api.bintray.com/maven/dptinfoutln/public/projectShortName/;publish=1</url>
+                    <url>https://api.bintray.com/maven/dptinfoutln/public/${projectShortName}/;publish=1</url>
                 </repository>
             </distributionManagement>
         </profile>
