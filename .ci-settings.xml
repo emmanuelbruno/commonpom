@@ -60,7 +60,7 @@
                 </pluginRepository>
             </pluginRepositories>
         </profile>
-        
+
     </profiles>
     <activeProfiles>
         <activeProfile>bintray</activeProfile>

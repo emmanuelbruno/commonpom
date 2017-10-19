@@ -36,6 +36,7 @@ build:
     expire_in: 1 day
     paths:
         - pom.xml    
+        - target/
   tags:
     - docker
     
@@ -64,17 +65,6 @@ sonar:
   tags:
     - docker    
 
-pages:
-  stage: deploy
-  environment: staging
-  script:
-  - ln -s target/site public
-  artifacts:
-    paths:
-    - public
-  only:
-  - master
-    
 deploy-bintray:
   stage: deploy
   environment: staging
@@ -112,4 +102,15 @@ javadoc:
     when: on_success
     expire_in: 1 week
     paths:
-      - target/site/apidocs/    
+      - target/site/apidocs/
+
+pages:
+  stage: deploy
+  environment: staging
+  script:
+  - ln -s target/site public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
