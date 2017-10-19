@@ -6,20 +6,6 @@ cache:
     - ".sonar/cache"   
 
 before_script:
-  - cp .travis.settings.xml ${HOME}/.m2/settings.xml
-  - export MAVEN_CLI_OPTS="--settings ${HOME}/.m2/settings.xml --batch-mode"
-  - export MAVEN_OPTS="-Duser.home=${HOME} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
-  - mvn ${MAVEN_CLI_OPTS} help:effective-pom
-  - | 
-    if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
-        QUALIFIER=-frozen-${CI_PIPELINE_ID}
-    elif [[ "${TRAVIS_BRANCH}" == "development" ]]; then
-        QUALIFIER=-dev-${CI_PIPELINE_ID}
-    elif [[ "${TRAVIS_BRANCH}" == v[0-9]* ]]; then
-        QUALIFIER=""
-    else
-        QUALIFIER=-${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
-    fi && mvn ${MAVEN_CLI_OPTS} build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}'${QUALIFIER}
 
 stages:
   - build
@@ -29,21 +15,43 @@ stages:
 build:
   stage: build
   script:
+    - cp .travis.settings.xml ${HOME}/.m2/settings.xml
+    - export MAVEN_CLI_OPTS="--settings ${HOME}/.m2/settings.xml --batch-mode"
+    - export MAVEN_OPTS="-Duser.home=${HOME} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+    - mvn ${MAVEN_CLI_OPTS} help:effective-pom
+    - | 
+        if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
+            QUALIFIER=-frozen-${CI_PIPELINE_ID}
+        elif [[ "${TRAVIS_BRANCH}" == "development" ]]; then
+            QUALIFIER=-dev-${CI_PIPELINE_ID}
+        elif [[ "${TRAVIS_BRANCH}" == v[0-9]* ]]; then
+            QUALIFIER=""
+        else
+            QUALIFIER=-${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
+        fi && mvn ${MAVEN_CLI_OPTS} build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}'${QUALIFIER}
     - mvn ${MAVEN_CLI_OPTS} clean compile
-
+  tags:
+    - docker
+    
 test:
   stage: test
   script:
     - mvn ${MAVEN_CLI_OPTS} verify
-
+  tags:
+    - docker
+    
 deploy_release:
   stage: deploy
   script:
     - mvn ${MAVEN_CLI_OPTS} -P stage-devel-bintray deploy
   only:
     - master
-
+  tags:
+    - docker
+    
 deploy:
   stage: deploy
   script:
     - mvn $MAVEN_CLI_OPTS -P stage-devel-nexus deploy
+  tags:
+    - docker
