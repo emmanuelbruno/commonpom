@@ -3,8 +3,7 @@ image: maven:3.5.0-jdk-8-alpine
 cache:                                                                                                  
   paths:
     - ".m2/repository"
-    - ".sonar/cache"   
-  untracked: true
+    - ".sonar/cache"
   
 before_script:
     - cp .travis.settings.xml .ci-settings.xml
@@ -25,7 +24,7 @@ build:
     - | 
         if [[ "${CI_COMMIT_REF_NAME}" == release-* ]]; then
             QUALIFIER=-frozen-${CI_PIPELINE_ID}
-        elif [[ "${CI_COMMIT_REF_NAME}" == "development" ]]; then
+        elif [[ "${CI_COMMIT_REF_NAME}" == "dev" ]]; then
             QUALIFIER=-dev-${CI_PIPELINE_ID}
         elif [[ "${CI_COMMIT_REF_NAME}" == v[0-9]* ]]; then
             QUALIFIER=""
@@ -33,6 +32,11 @@ build:
             QUALIFIER=-${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}
         fi && mvn ${MAVEN_CLI_OPTS} build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}'${QUALIFIER}
     - mvn ${MAVEN_CLI_OPTS} clean compile
+  artifacts:
+    when: on_success
+    expire_in: 1 day
+    paths:
+        - pom.xml    
   tags:
     - docker
     
