@@ -4,6 +4,12 @@ cache:
   paths:
     - ".m2/repository"
     - ".sonar/cache"   
+    
+cache:
+    key: ${CI_ENVIRONMENT_NAME}-${CI_PIPELINE_ID}
+    paths:
+    - "ci-settings.xml"
+    - "target"
 
 before_script:
 
@@ -15,8 +21,8 @@ stages:
 build:
   stage: build
   script:
-    - cp .travis.settings.xml ${HOME}/.m2/settings.xml
-    - export MAVEN_CLI_OPTS="--settings ${HOME}/.m2/settings.xml --batch-mode"
+    - cp .travis.settings.xml .ci-settings.xml
+    - export MAVEN_CLI_OPTS="--settings ci-settings.xml --batch-mode"
     - export MAVEN_OPTS="-Duser.home=${HOME} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
     - mvn ${MAVEN_CLI_OPTS} help:effective-pom
     - | 
