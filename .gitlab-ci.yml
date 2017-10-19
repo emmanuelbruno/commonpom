@@ -12,7 +12,7 @@ cache:
 before_script:
   - echo ${HOME}
   - cp .travis.settings.xml ${HOME}/.m2/settings.xml
-  - cat Update .gitlab-ci.yml
+  - cat ${HOME}/.m2/settings.xml
   - mvn help:effective-pom
   - | 
     if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
