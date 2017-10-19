@@ -6,12 +6,9 @@ cache:
     - "/root/.sonar/cache"   
 
 before_script:
-  - echo ${HOME}
   - cp .travis.settings.xml ${HOME}/.m2/settings.xml
   - export MAVEN_CLI_OPTS="--settings ${HOME}/.m2/settings.xml --batch-mode"
   - export MAVEN_OPTS="-Duser.home=${HOME} -Dmaven.repo.local=${HOME}/.m2/repository"
-
-  - cat ${HOME}/.m2/settings.xml
   - mvn ${MAVEN_CLI_OPTS} help:effective-pom
   - | 
     if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
@@ -22,9 +19,7 @@ before_script:
         QUALIFIER=""
     else
         QUALIFIER=-${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
-    fi && mvn ${MAVEN_CLI_OPTS} build-helper:parse-version versions:set 
-        -DgenerateBackupPoms=false 
-        -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}'${QUALIFIER}
+    fi && mvn ${MAVEN_CLI_OPTS} build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}'${QUALIFIER}
 
 stages:
   - build
