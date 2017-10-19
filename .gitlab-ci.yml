@@ -27,10 +27,10 @@ build:
             QUALIFIER=-frozen-${CI_PIPELINE_ID}
         elif [[ "${TRAVIS_BRANCH}" == "development" ]]; then
             QUALIFIER=-dev-${CI_PIPELINE_ID}
-        elif [[ "${TRAVIS_BRANCH}" == v[0-9]* ]]; then
+        elif [[ "${CI_COMMIT_REF_NAME}" == v[0-9]* ]]; then
             QUALIFIER=""
         else
-            QUALIFIER=-${TRAVIS_BRANCH}-${TRAVIS_BUILD_NUMBER}
+            QUALIFIER=-${TRAVIS_BRANCH}-${CI_PIPELINE_ID}
         fi && mvn ${MAVEN_CLI_OPTS} build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}'${QUALIFIER}
     - mvn ${MAVEN_CLI_OPTS} clean compile
   tags:
@@ -41,15 +41,16 @@ package:
   environment: staging
   dependencies:
     - build
-  script:  "mvn ${MAVEN_CLI_OPTS} package"
- artifacts:
+  script:  
+    - mvn ${MAVEN_CLI_OPTS} package
+  artifacts:
     when: on_success
     expire_in: 1 day
     paths:
         - target/    
- tags:
+  tags:
     - docker
-
+    
 sonar:
   stage: test
   environment: staging
@@ -57,9 +58,9 @@ sonar:
     - build
   script: "mvn ${MAVEN_CLI_OPTS} verify sonar:sonar"
   tags:
-    - docker
-        
-deploy_bintray:
+    - docker    
+    
+deploy-bintray:
   stage: deploy
   environment: staging
   dependencies:
@@ -70,9 +71,9 @@ deploy_bintray:
   only:
     - master
   tags:
-    - docker
-
-deploy_nexus:
+    - docker    
+    
+deploy-nexus:
   stage: deploy
   environment: staging
   dependencies:
@@ -81,18 +82,19 @@ deploy_nexus:
   script:
     - mvn ${MAVEN_CLI_OPTS} -P stage-devel-nexus deploy
   tags:
-    - docker
+    - docker    
     
 javadoc:
-  stage: documentation
+  stage: doc
   environment: staging
   only:
     - tags
   dependencies:
-    - maven:deploy-nexus
-  script: "mvn ${MAVEN_CLI_OPTS} javadoc:javadoc"
+    - deploy-nexus
+  script: 
+    - mvn ${MAVEN_CLI_OPTS} javadoc:javadoc
   artifacts:
     when: on_success
     expire_in: 1 week
     paths:
-      - target/site/apidocs/
+      - target/site/apidocs/    
