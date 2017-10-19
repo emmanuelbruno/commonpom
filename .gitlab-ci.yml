@@ -1,12 +1,17 @@
 image: maven:3.5.0-jdk-8-alpine
 
+variables:
+  MAVEN_CLI_OPTS: "--settings ${HOME}/.m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Duser.home=${HOME} -Dmaven.repo.local=${HOME}/.m2/repository"
+
 cache:                                                                                                  
   paths:
-    - "$HOME/.m2/repository"
-    - "$HOME/.sonar/cache"   
+    - "${HOME}/.m2/repository"
+    - "${HOME}/.sonar/cache"   
 
 before_script:
-  - cp .travis.settings.xml $HOME/.m2/settings.xml
+  - echo ${HOME}
+  - cp .travis.settings.xml ${HOME}/.m2/settings.xml
   - mvn help:effective-pom
   - | 
     if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
@@ -26,10 +31,6 @@ stages:
   - test
   - deploy
 
-variables:
-  MAVEN_CLI_OPTS: "--settings ${HOME}/.m2/settings.xml --batch-mode"
-  MAVEN_OPTS: "-Duser.home=${HOME} -Dmaven.repo.local=${HOME}/.m2/repository"
-  
 build:
   stage: build
   script:
