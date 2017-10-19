@@ -5,25 +5,22 @@ cache:
     - ".m2/repository"
     - ".sonar/cache"   
     
-cache:
-    key: ${CI_ENVIRONMENT_NAME}-${CI_PIPELINE_ID}
-    paths:
-    - "ci-settings.xml"
-    - "target"
-
 before_script:
+    - cp .travis.settings.xml .ci-settings.xml
 
 stages:
   - build
   - test
   - deploy
+  - doc
+  - release
 
 build:
   stage: build
+  environment: staging
   script:
-    - cp .travis.settings.xml .ci-settings.xml
     - export MAVEN_CLI_OPTS="--settings .ci-settings.xml --batch-mode"
-    - export MAVEN_OPTS="-Duser.home=${HOME} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+    - export MAVEN_OPTS="-Duser.home=${CI_PROJECT_DIR} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
     - mvn ${MAVEN_CLI_OPTS} help:effective-pom
     - | 
         if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
@@ -39,25 +36,63 @@ build:
   tags:
     - docker
     
-test:
+package:
   stage: test
-  script:
-    - mvn ${MAVEN_CLI_OPTS} verify
+  environment: staging
+  dependencies:
+    - build
+  script:  "mvn ${MAVEN_CLI_OPTS} package"
+ artifacts:
+    when: on_success
+    expire_in: 1 day
+    paths:
+        - target/    
+ tags:
+    - docker
+
+sonar:
+  stage: test
+  environment: staging
+  dependencies:
+    - build
+  script: "mvn ${MAVEN_CLI_OPTS} verify sonar:sonar"
   tags:
     - docker
-    
-deploy_release:
+        
+deploy_bintray:
   stage: deploy
+  environment: staging
+  dependencies:
+    - package
+    - sonar
   script:
     - mvn ${MAVEN_CLI_OPTS} -P stage-devel-bintray deploy
   only:
     - master
   tags:
     - docker
-    
-deploy:
+
+deploy_nexus:
   stage: deploy
+  environment: staging
+  dependencies:
+    - package
+    - sonar
   script:
-    - mvn $MAVEN_CLI_OPTS -P stage-devel-nexus deploy
+    - mvn ${MAVEN_CLI_OPTS} -P stage-devel-nexus deploy
   tags:
     - docker
+    
+javadoc:
+  stage: documentation
+  environment: staging
+  only:
+    - tags
+  dependencies:
+    - maven:deploy-nexus
+  script: "mvn ${MAVEN_CLI_OPTS} javadoc:javadoc"
+  artifacts:
+    when: on_success
+    expire_in: 1 week
+    paths:
+      - target/site/apidocs/
