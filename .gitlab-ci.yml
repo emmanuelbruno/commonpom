@@ -22,7 +22,7 @@ build:
   stage: build
   script:
     - cp .travis.settings.xml .ci-settings.xml
-    - export MAVEN_CLI_OPTS="--settings ci-settings.xml --batch-mode"
+    - export MAVEN_CLI_OPTS="--settings .ci-settings.xml --batch-mode"
     - export MAVEN_OPTS="-Duser.home=${HOME} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
     - mvn ${MAVEN_CLI_OPTS} help:effective-pom
     - | 
