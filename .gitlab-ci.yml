@@ -1,17 +1,16 @@
 image: maven:3.5.0-jdk-8-alpine
 
-variables:
-  MAVEN_CLI_OPTS: '--batch-mode'
-  MAVEN_OPTS: '-Duser.home=${HOME} -Dmaven.repo.local=${HOME}/.m2/repository'
-
 cache:                                                                                                  
   paths:
-    - "${HOME}/.m2/repository"
-    - "${HOME}/.sonar/cache"   
+    - "/root/.m2/repository"
+    - "/root/.sonar/cache"   
 
 before_script:
   - echo ${HOME}
   - cp .travis.settings.xml ${HOME}/.m2/settings.xml
+  - export MAVEN_CLI_OPTS='--settings ${HOME}/settings.xml --batch-mode'
+  - export MAVEN_OPTS='-Duser.home=${HOME} -Dmaven.repo.local=${HOME}/.m2/repository'
+
   - cat ${HOME}/.m2/settings.xml
   - mvn ${MAVEN_CLI_OPTS} help:effective-pom
   - | 
