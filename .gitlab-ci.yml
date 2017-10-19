@@ -4,7 +4,8 @@ cache:
   paths:
     - ".m2/repository"
     - ".sonar/cache"   
-    
+  untracked: true
+  
 before_script:
     - cp .travis.settings.xml .ci-settings.xml
     - export MAVEN_CLI_OPTS="--settings .ci-settings.xml --batch-mode"
@@ -58,6 +59,17 @@ sonar:
   script: "mvn ${MAVEN_CLI_OPTS} verify sonar:sonar"
   tags:
     - docker    
+
+pages:
+  stage: deploy
+  environment: staging
+  script:
+  - ln -s public 
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
     
 deploy-bintray:
   stage: deploy
