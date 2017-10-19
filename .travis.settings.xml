@@ -6,7 +6,7 @@
      <mirrors>
         <mirror>
             <id>lsis-nexus-public</id>
-            <mirrorOf>http://repository.jboss.org/maven2,https://repo.maven.apache.org, https://repo1.maven.org/maven2,https://repo.eclipse.org/content/repositories/egit-releases/,https://nexus.lsis.univ-tln.fr/repository/bintray-dptinfoutln-public/</mirrorOf>
+            <mirrorOf>*</mirrorOf>
             <url>https://nexus.lsis.univ-tln.fr/repository/maven-public/</url>
         </mirror>
     </mirrors>
