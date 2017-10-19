@@ -2,7 +2,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
 			      https://maven.apache.org/xsd/settings-1.0.0.xsd">
-    
+
      <mirrors>
         <mirror>
             <id>lsis-nexus-public</id>
@@ -13,8 +13,8 @@
     
     <servers>
         <server>
-            <id>bintray-dptinfoutln-public</id>
-            <username>brunoe</username>
+            <id>bintray</id>
+            <username>${env.BINTRAY_LOGIN}</username>
             <password>${env.BINTRAY_API_KEY}</password>
         </server>
 
@@ -30,15 +30,13 @@
     <profiles>
         <profile>
             <id>sonar</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <sonar.host.url>https://sonar.lsis.univ-tln.fr</sonar.host.url>
                 <!-- generate a token in https://sonar.lsis.univ-tln.fr/account/security -->
                 <sonar.login>${env.SONAR_TOKEN}</sonar.login>
             </properties>
         </profile>
+
         <profile>
             <id>bintray</id>
             <repositories>
@@ -62,9 +60,11 @@
                 </pluginRepository>
             </pluginRepositories>
         </profile>
+        
     </profiles>
     <activeProfiles>
         <activeProfile>bintray</activeProfile>
+        <activeProfile>sonar</activeProfile>
     </activeProfiles>
 
 </settings>
