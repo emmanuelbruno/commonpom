@@ -611,7 +611,8 @@
                              server  -->
                         <noDeploy>true</noDeploy>
 
-                        <squash>true</squash>
+			<!-- Whether to squash commits into a single commit before merging. -->
+                        <squash>false</squash>
 
                         <scmCommentPrefix>[gitflow]</scmCommentPrefix>
 
