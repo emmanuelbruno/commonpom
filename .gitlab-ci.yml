@@ -1,0 +1,116 @@
+image: maven:3.5.0-jdk-8-alpine
+
+cache:                                                                                                  
+  paths:
+    - ".m2/repository"
+    - ".sonar/cache"
+  
+before_script:
+    - export MAVEN_CLI_OPTS="--settings .ci-settings.xml --batch-mode"
+    - export MAVEN_OPTS="-Duser.home=${CI_PROJECT_DIR} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+
+stages:
+  - build
+  - test
+  - deploy
+  - doc
+  - release
+
+build:
+  stage: build
+  environment: staging
+  script:
+    - | 
+        if [[ "${CI_COMMIT_REF_NAME}" == release-* ]]; then
+            QUALIFIER=-frozen-${CI_PIPELINE_ID}
+        elif [[ "${CI_COMMIT_REF_NAME}" == "dev" ]]; then
+            QUALIFIER=-dev-${CI_PIPELINE_ID}
+        elif [[ "${CI_COMMIT_REF_NAME}" == v[0-9]* ]]; then
+            QUALIFIER=""
+        else
+            QUALIFIER=-${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}
+        fi && mvn ${MAVEN_CLI_OPTS} build-helper:parse-version versions:set -DgenerateBackupPoms=false -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}'${QUALIFIER}
+    - mvn ${MAVEN_CLI_OPTS} clean compile
+  artifacts:
+    when: on_success
+    expire_in: 1 day
+    paths:
+        - pom.xml    
+        - target/
+  tags:
+    - docker
+    
+package:
+  stage: test
+  environment: staging
+  dependencies:
+    - build
+  script:  
+    - mvn ${MAVEN_CLI_OPTS} package
+  artifacts:
+    when: on_success
+    expire_in: 1 day
+    paths:
+        - target/
+        - pom.xml
+  tags:
+    - docker
+    
+sonar:
+  stage: test
+  environment: staging
+  dependencies:
+    - build
+  script: "mvn ${MAVEN_CLI_OPTS} verify sonar:sonar"
+  tags:
+    - docker    
+
+deploy-bintray:
+  stage: deploy
+  environment: staging
+  dependencies:
+    - package
+    - sonar
+  script:
+    - mvn ${MAVEN_CLI_OPTS} -P stage-devel-bintray deploy
+  only:
+    - master
+  tags:
+    - docker    
+    
+deploy-nexus:
+  stage: deploy
+  environment: staging
+  dependencies:
+    - package
+    - sonar
+  script:
+    - mvn ${MAVEN_CLI_OPTS} -P stage-devel-nexus deploy
+  tags:
+    - docker    
+    
+javadoc:
+  stage: doc
+  environment: staging
+  only:
+    - tags
+  dependencies:
+    - deploy-nexus
+  script: 
+    - mvn ${MAVEN_CLI_OPTS} javadoc:javadoc
+  artifacts:
+    when: on_success
+    expire_in: 1 week
+    paths:
+      - target/site/apidocs/
+
+pages:
+  stage: deploy
+  environment: staging
+  script:
+  - ln -s target/site public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
