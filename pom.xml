@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
@@ -611,7 +612,7 @@
                              server  -->
                         <noDeploy>true</noDeploy>
 
-			<!-- Whether to squash commits into a single commit before merging. -->
+                        <!-- Whether to squash commits into a single commit before merging. -->
                         <squash>false</squash>
 
                         <scmCommentPrefix>[gitflow]</scmCommentPrefix>
@@ -671,13 +672,20 @@
                         <!-- The shaded artifact is not the main artifact -->
                         <shadedArtifactAttached>true</shadedArtifactAttached>
                         <shadedClassifierName>withdependencies</shadedClassifierName>
-
                         <transformers>
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <!-- makes a default entry point in the shaded jar -->
+                            <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                 <manifestEntries>
-                                    <!--suppress MavenModelInspection -->
                                     <Main-Class>${app.main.class}</Main-Class>
+                                    <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+                                    <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
                                 </manifestEntries>
+                            </transformer>
+
+                            <!-- keep a default config file -->
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                <resource>config.properties</resource>
                             </transformer>
                         </transformers>
                     </configuration>
