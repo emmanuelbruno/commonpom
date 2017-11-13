@@ -37,6 +37,10 @@ build:
     paths:
         - pom.xml    
         - target/
+  # no need to build master, a tag will follow
+  except:
+    - master
+  # needs a gitlab runner that support docker
   tags:
     - docker
     

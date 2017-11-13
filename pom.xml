@@ -611,7 +611,8 @@
                              server  -->
                         <noDeploy>true</noDeploy>
 
-                        <squash>true</squash>
+			<!-- Whether to squash commits into a single commit before merging. -->
+                        <squash>false</squash>
 
                         <scmCommentPrefix>[gitflow]</scmCommentPrefix>
 
@@ -663,7 +664,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.4.3</version>
+                    <version>3.1.0</version>
                     <configuration>
                         <createDependencyReducedPom>true</createDependencyReducedPom>
                         <minimizeJar>true</minimizeJar>
