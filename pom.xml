@@ -686,8 +686,20 @@
                             <!-- keep a default config file -->
                             <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                 <resource>config.properties</resource>
+                                <resource>log4j.properties</resource>
+                                <resource>keystore.store</resource>
                             </transformer>
                         </transformers>
+
+                        <filters>
+                            <filter>
+                                <artifact>${project.groupId}:${project.artifactId}</artifact>
+                                <includes>
+                                    <include>**</include>
+                                </includes>
+                            </filter>
+                        </filters>
+
                     </configuration>
                     <executions>
                         <execution>
