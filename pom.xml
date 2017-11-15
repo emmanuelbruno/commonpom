@@ -690,16 +690,7 @@
                                 <resource>keystore.store</resource>
                             </transformer>
                         </transformers>
-
-                        <filters>
-                            <filter>
-                                <artifact>${project.groupId}:${project.artifactId}</artifact>
-                                <includes>
-                                    <include>**</include>
-                                </includes>
-                            </filter>
-                        </filters>
-
+                        
                     </configuration>
                     <executions>
                         <execution>
