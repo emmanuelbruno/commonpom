@@ -57,6 +57,8 @@ package:
     paths:
         - target/
         - pom.xml
+  except:
+    - master
   tags:
     - docker
     
@@ -68,6 +70,8 @@ sonar:
   script: "mvn ${MAVEN_CLI_OPTS} verify sonar:sonar"
   tags:
     - docker    
+  except:
+    - master
 
 deploy-bintray:
   stage: deploy
@@ -78,7 +82,7 @@ deploy-bintray:
   script:
     - mvn ${MAVEN_CLI_OPTS} -P stage-devel-bintray deploy
   only:
-    - master
+    - tags
   tags:
     - docker    
     
@@ -92,7 +96,9 @@ deploy-nexus:
     - mvn ${MAVEN_CLI_OPTS} -P stage-devel-nexus deploy
   tags:
     - docker    
-    
+  except:
+    - master
+  
 javadoc:
   stage: doc
   environment: staging
@@ -107,6 +113,8 @@ javadoc:
     expire_in: 1 week
     paths:
       - target/site/apidocs/
+  except:
+    - master
 
 pages:
   stage: deploy
@@ -117,4 +125,4 @@ pages:
     paths:
     - public
   only:
-  - master
+  - tags
