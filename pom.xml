@@ -617,7 +617,7 @@
                         <scmCommentPrefix>[gitflow]</scmCommentPrefix>
 
                         <!-- A VOIR -->
-                        <featureRebase>true</featureRebase>
+                        <featureRebase>false</featureRebase>
 
                         <!--pullDevelop>true</pullDevelop>
                         <pullMaster>true</pullMaster-->
