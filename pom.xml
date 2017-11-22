@@ -720,19 +720,6 @@
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>0.20.1</version>
                     <extensions>true</extensions>
-                    <configuration>
-                        <images>
-                            <image>
-                                <!--name>brunoe/base</name-->
-                                <build>
-                                    <!-- dockerFileDir>.</dockerFileDir-->
-                                    <tags>
-                                        <tag>${project.version}</tag>
-                                    </tags>
-                                </build>
-                            </image>
-                        </images>
-                    </configuration>
                 </plugin>
 
                 <plugin>
