@@ -98,8 +98,8 @@ deploy-bintray:
     - sonar
   script:
     - mvn ${MAVEN_CLI_OPTS} -P stage-devel-bintray deploy
-  only:
-    - tags
+  except:
+    - master
   tags:
     - docker    
     
