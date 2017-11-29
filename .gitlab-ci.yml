@@ -8,6 +8,7 @@ cache:
 before_script:
   - export MAVEN_CLI_OPTS="--settings .ci-settings.xml --batch-mode"
   - export MAVEN_OPTS="-Duser.home=${CI_PROJECT_DIR} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+  - export _JAVA_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.net.useSystemProxies=true"
 
 stages:
   - build
