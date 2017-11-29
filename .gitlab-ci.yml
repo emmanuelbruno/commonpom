@@ -23,7 +23,7 @@ build:
     - | 
         if [[ "${CI_COMMIT_REF_NAME}" == release-* ]]; then
             QUALIFIER=-frozen-${CI_PIPELINE_ID}
-        elif [[ "${CI_COMMIT_REF_NAME}" == "dev" ]]; then
+        elif [[ "${CI_COMMIT_REF_NAME}" == "development" ]]; then
             QUALIFIER=-dev-${CI_PIPELINE_ID}
         elif [[ "${CI_COMMIT_REF_NAME}" == v[0-9]* ]]; then
             QUALIFIER=""
