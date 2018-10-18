@@ -4,19 +4,14 @@ cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.sonar/cache"
-
 before_install:
 - |
   if [[ "${TRAVIS_COMMIT_MESSAGE}" == "[gitflow]"* ]] && [[ "${TRAVIS_BRANCH}" != v[0-9]* ]] && [[ "${TRAVIS_BRANCH}" != development ]] && [[ "${TRAVIS_BRANCH}" != release-* ]]; then
     travis_terminate 0
   fi
-
 before_script:
-#puts the settings.xml in a standard location.
 - cp .ci-settings.xml $HOME/.m2/settings.xml
-
 script:
-#defines a unique version for the artifact.
 - |
   if [[ "${TRAVIS_BRANCH}" == release-* ]]; then
     QUALIFIER=-frozen-${TRAVIS_BUILD_NUMBER}
@@ -38,16 +33,15 @@ after_success:
     ./.travis.scripts/mvn.sh -P github-site site  fi
 deploy:
   provider: script
-#  script: "./.travis.scripts/mvn.sh -Dmaven.site.skip=true -P stage-devel-nexus deploy"
-  script: "./.travis.scripts/mvn.sh -Dmaven.site.skip=true -P stage-devel-bintray deploy"
+  script: "./.travis.scripts/mvn.sh -Dmaven.site.skip=true -P stage-devel-bintray
+    deploy"
   skip_cleanup: true
   on:
     all_branches: true
 branches:
-  except: # web site and version tag
+  except:
   - gh-pages
   - master
-#  - /^v[0-9]/
 notifications:
   email:
     recipients:
@@ -62,3 +56,5 @@ env:
   - secure: nhQjenrseKFDQWyoqk3O5RmWzqrvZe6uvS4ScsprfsPJlXWK92GsWZJgK4dTkb6LxiVfITEhda4qeDZQuKEAtzTekeT5L76dXADT+2LnwtIbYINrIsS0VeZaCp/Df3TJdRIScVemfIHu15oaL+Ae2dmPOsmaw8ruhR9Sjv1Yd8sPdZcgkyEsFu9pOfAiuUQC9HPjtQRhS/xc1niBm727KjAF7CoMdQ682rs4+VvOsRC1y0bk3NcWeulHstzOZwpSSrEU4P4YDgWu3BtXTnh7M/sn+JX5xyL8SFCzUtRZcaPzqNnK/LZxOkrNlX8dU0o+i1e8bOuiJLPxbfNGKCvnjkDgJ9fyijmfJtOJ9hHqQbXszA1GVheGcIlBhKz0NRwbjrmLrTikV9ZYSZgVIzZMMunz1R/vCjTPBiV0mFgFAakpr8Kf620ATvv+w7dlf8Z5HJpFYgNB32MYjsfbom1ooyFCP833YN9lyR6CJiAb6rwjWHfqOpr98Kp1EhNLD0BmvzW+541iUdEah3ESMGn8VmlrabchYil8tmgf6kjcxfIsnMBCCBr4yJ6RlZpDY4rE4evn1zLsFD7A+7ehtnj97cqm+AgHFsH1ssYWNACrYqWQTL6UMp5mGy7tQA3GV8VlNq/K4mmpClV0fNvXIgp1uarRvpiVDWKBaoLNg0JUAZY=
   - secure: HJjWrbc8RXFupCPzKuBGq83xCb6rtHCvQqxH3mOVGLGi+ridVZljbgNS792O6qeJPvHsmYCzuwjBq1Azq2RMqbpx9L++DXO49FDUJobw70PSOLcwXuHaNVF49W7CUeWT+243APx3c/No1bn7jX+BZg66xh9S6+sMMbUA0LY0gj+oVl3p4ETlIvIrR82DXaZblkYhYikjZ8AAX1/Bhvk4cSGBSzP8biSLG+DlhuTNYRBOENJ0/30d/Oxhvp4wRtyxJ69dKjm5DKLEAxYqr25aPVb8ZZ8FexOMIp8EBYnoakpZ5zF3yidZ15jWHb8hJp9dgCZ3l5QXHWP24Ki/fS7pv7bJs7R7hGP67ry6xxwVE54P/GEafL20jszv1FzHduUCKwvvO+6FXINDDwHyBLOF4oJqFrW+MzdP5/NXq7moxrBTCO+Ce75CN8A5AJkyrWSFoXzy6mIMT/8JeXdjudbm03z746/MXYvKpo7zpVk9pSpGHxQuY0sGCT0fqMytObpymK+xkmeuOHYjqdwm2HPauFVwvyPKMBzcalr/iYF9m3IquBTsGGxzicjdULMwO6phgc9ZP+KSUMcwvuie34nZoj4TvB4eDyN+1Wi73n4j0NWsULXkCuurcIcHtbU6WKFpz+5kusnNGPmcVX+8J/AntSOC6RoZA3UeFOeEXT/glow=
   - secure: oW5PtGUWgiTGJq2KW3yuNuOufbQ9XmRES04RmJn2/sPYSPx+kXWE/pDx3sKBqMaPiXFXBaiJjiAOujO5p7kFW3rG1DpcKrOeXjRR9f85xm2F7YAFWKBUsc6qLusIjxpV1MgNrmV5PimheC9ifHZ0YR9XO/lDR9u9XoYj6JeuWRFpMZ1eJThwT6znrqDkM4b3UkSI82DYtwlvX6TaCyNLE9Y0IhyZ1ZLtg5o3HgyuPyR8Dy8+W/Q9+omB+m/fcxCDfYy9G/abf7W94Up/Kgp4PoK0k9XBD75y2OZ6bPEXvrhHYxBp93m2GO9pjlHlTINs2zHLTlVP2zW5J+jHRL0EG710MIr62Esw5M9M3REByUcRRYmviXr5TChTrvleJls/nEi82flDB8INt9U6Z1ABABi/IRNWhxKe0x9Pi4YoxkdjW8Dqzw28YmNGEcpADD7LTfO6K21uQEUhw25o7DyHaWBgnJlc9kXjEyesDgdDlaLPeWvnmWp8kEUYrQ/n/YPP6Q3UjpMaBodHfBGSizfSaavG9ClypDTTPLO36VRlZeJEQb7yXi2ExryCQxyMZSezk1+8YklZr4lLeUUhdrw5C/TsYIBvHcPLeO+73aW7xbq/130WHAUpCTMatUZeYRsWAxJwbXCPHSpOWnYvnxBXfHHXRj11z/AMoOdzSJZIO8w=
+  matrix:
+    secure: Z+UIRjXUs5UnuF08l5tUdLtobYtMhEmtZXGUYuBCXrLr5WqQJ6EDS5YO5r2bRUuFADiFQGcaVyF2d4+3GmjvuY5pnd/sd71Ww953TK9aSy47ggPUnDrQUxCRmgFJNvbnYh9mhSOlotn9YDvAqEA4tZKmgIZYh5UX5bwbX3pyLHyltoCBn389K1zEfv0Ox4msPBCcqrn3iLT8fUvTS+DmiC7eELCCkN/53o4Xm9p5RaXpjgphrihNYSQ6wyEwjO3pmwtjKaRBvokKnZJDG9B5ov7U+pMZ/NGhwCl3pKogi3nvbx0B25yaEw7Dk1MEgCqdktXoWosRosfvLLWTSLFQ1ld7XktJ/9482qH+ZE6tSqfyIKl2vi6gI4b+phUTq+HNobcVSqjZDfKEHFRDfuQ1N/RBHwov57um+agavRBZiucZ5WHwBvPvK9kAAVLRTvoDLfQGLeN5EADf3pmnTJ4QQYW/Krw4iHrRilEaC3aeYHDbF3A/M8J3zKzvtEwVLjhcl3cJZTQIl6UpC6i4BfMRj5KUD4MB7ocnkJEwtZN04FFhfEY/5rYsU4fizeULtiZwo7vPOjtehAf+ZAE5pf6LtkYcanuVqhWUODTVuDKxlWf+0KZ8e71BtB2IBeUvXftzkiKlQK1bPg43L1H2SesSqWLyIOARBd2TcNeCYLZDCU0=
