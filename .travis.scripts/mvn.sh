@@ -3,6 +3,7 @@ export USER_HOME_DIR=/root
 docker run \
        --rm \
        -e SONAR_TOKEN=${SONAR_TOKEN} \
+       -e BINTRAY_LOGIN=${BINTRAY_LOGIN} \
        -e BINTRAY_API_KEY=${BINTRAY_API_KEY} \
        -e UTLN_EMAIL=${UTLN_EMAIL} \
        -e UTLN_PASSWORD=${UTLN_PASSWORD} \
