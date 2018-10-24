@@ -1,5 +1,5 @@
 #!/bin/sh
-export USER_HOME_DIR=/root
+export USER_HOME_DIR=${HOME}
 docker run \
        --rm \
        -e SONAR_TOKEN=${SONAR_TOKEN} \
