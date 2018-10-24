@@ -72,9 +72,9 @@
             <id>stage-devel-bintray</id>
             <distributionManagement>
                 <repository>
-                    <id>bintray-dptinfoutln-public</id>
+                    <id>bintray</id>
                     <name>dptinfoutln-public</name>
-                    <url>http://api.bintray.com/maven/dptinfoutln/public/${projectShortName}/;publish=1</url>
+                    <url>https://api.bintray.com/maven/dptinfoutln/public/${projectShortName}/;publish=1</url>
                 </repository>
             </distributionManagement>
         </profile>
