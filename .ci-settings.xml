@@ -46,7 +46,7 @@
                     </snapshots>
                     <id>bintray-dptinfoutln-public</id>
                     <name>bintray</name>
-                    <url>https://dl.bintray.com/dptinfoutln/public</url>
+                    <url>http://dl.bintray.com/dptinfoutln/public</url>
                 </repository>
             </repositories>
             <pluginRepositories>
@@ -56,7 +56,7 @@
                     </snapshots>
                     <id>bintray-dptinfoutln-public</id>
                     <name>bintray-plugins</name>
-                    <url>https://dl.bintray.com/dptinfoutln/public</url>
+                    <url>http://dl.bintray.com/dptinfoutln/public</url>
                 </pluginRepository>
             </pluginRepositories>
         </profile>
