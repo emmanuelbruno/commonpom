@@ -6,14 +6,15 @@ cache:
     - ".sonar/cache"
   
 before_script:
-    - export MAVEN_CLI_OPTS="--settings .ci-settings.xml --batch-mode"
-    - export MAVEN_OPTS="-Duser.home=${CI_PROJECT_DIR} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+  - export MAVEN_CLI_OPTS="--settings .ci-settings.xml --batch-mode"
+  - export MAVEN_OPTS="-Duser.home=${CI_PROJECT_DIR} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository"
+  - export _JAVA_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.net.useSystemProxies=true"
 
 stages:
   - build
   - test
-  - deploy
   - doc
+  - deploy
   - release
 
 build:
@@ -23,7 +24,7 @@ build:
     - | 
         if [[ "${CI_COMMIT_REF_NAME}" == release-* ]]; then
             QUALIFIER=-frozen-${CI_PIPELINE_ID}
-        elif [[ "${CI_COMMIT_REF_NAME}" == "dev" ]]; then
+        elif [[ "${CI_COMMIT_REF_NAME}" == "development" ]]; then
             QUALIFIER=-dev-${CI_PIPELINE_ID}
         elif [[ "${CI_COMMIT_REF_NAME}" == v[0-9]* ]]; then
             QUALIFIER=""
@@ -61,7 +62,24 @@ package:
     - master
   tags:
     - docker
-    
+
+javadoc:
+  stage: doc
+  environment: staging
+  only:
+    - tags
+  dependencies:
+    - package
+  script:
+    - mvn ${MAVEN_CLI_OPTS} javadoc:javadoc
+  artifacts:
+    when: on_success
+    expire_in: 1 week
+    paths:
+      - target/site/apidocs/
+  except:
+    - master
+
 sonar:
   stage: test
   environment: staging
@@ -81,8 +99,8 @@ deploy-bintray:
     - sonar
   script:
     - mvn ${MAVEN_CLI_OPTS} -P stage-devel-bintray deploy
-  only:
-    - tags
+  except:
+    - master
   tags:
     - docker    
     
@@ -98,31 +116,17 @@ deploy-nexus:
     - docker    
   except:
     - master
-  
-javadoc:
-  stage: doc
-  environment: staging
-  only:
-    - tags
-  dependencies:
-    - deploy-nexus
-  script: 
-    - mvn ${MAVEN_CLI_OPTS} javadoc:javadoc
-  artifacts:
-    when: on_success
-    expire_in: 1 week
-    paths:
-      - target/site/apidocs/
-  except:
-    - master
 
 pages:
   stage: deploy
   environment: staging
+  dependencies:
+    - package
+    - sonar
   script:
-  - ln -s target/site public
+    - ln -s target/site public
   artifacts:
     paths:
     - public
   only:
-  - tags
+    - tags
