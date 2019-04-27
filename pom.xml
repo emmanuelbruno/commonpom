@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
@@ -134,7 +135,7 @@
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-vintage-engine</artifactId>
+                <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit-jupiter}</version>
                 <scope>test</scope>
             </dependency>
@@ -634,8 +635,13 @@
                         <shadedArtifactAttached>true</shadedArtifactAttached>
                         <shadedClassifierName>withdependencies</shadedClassifierName>
                         <transformers>
+                            <!-- merge services ressource for SPI -->
+                            <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+
                             <!-- makes a default entry point in the shaded jar -->
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                 <manifestEntries>
                                     <Main-Class>${app.main.class}</Main-Class>
                                     <X-Compile-Source-JDK>${java.version}</X-Compile-Source-JDK>
@@ -651,7 +657,7 @@
                         </transformers>
 
                         <!-- removes signatures in uberjar -->
-                        <!--filters>
+                        <filters>
                             <filter>
                                 <artifact>*:*</artifact>
                                 <excludes>
@@ -660,7 +666,7 @@
                                     <exclude>META-INF/*.RSA</exclude>
                                 </excludes>
                             </filter>
-                        </filters-->
+                        </filters>
 
                     </configuration>
                     <executions>
