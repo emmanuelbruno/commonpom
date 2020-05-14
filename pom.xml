@@ -5,10 +5,16 @@
     <properties>
         <projectShortName>commonpom</projectShortName>
         <github.account>emmanuelbruno</github.account>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+
+        <maven.compiler.release>14</maven.compiler.release>
+        <!-- minimum maven required version -->
+        <maven.version>3.6.3</maven.version>
+
         <github.global.server>github</github.global.server>
+
         <jackson.version>2.11.0</jackson.version>
         <hibernate.version>5.2.18.Final</hibernate.version>
         <junit-jupiter>5.6.2</junit-jupiter>
@@ -301,7 +307,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.8.1</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -315,7 +321,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.2.1</version>
                     <configuration>
                         <archive>
                             <manifest>
@@ -340,7 +346,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                 </plugin>
 
                 <plugin>
@@ -361,7 +367,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-archetype-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.2</version>
                 </plugin>
 
                 <!-- Generates the javadoc. Private members are shown.
@@ -373,7 +379,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                     <configuration>
                         <show>private</show>
                     </configuration>
@@ -408,7 +414,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                 </plugin>
 
                 <!-- Executes unit tests and Generates reports (target/surefire-reports).
@@ -480,7 +486,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
+                    <version>3.9.0</version>
                     <configuration>
                         <locales>en,fr</locales>
                     </configuration>
@@ -626,7 +632,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.1</version>
+                    <version>3.2.3</version>
                     <configuration>
                         <createDependencyReducedPom>true</createDependencyReducedPom>
                         <minimizeJar>true</minimizeJar>
@@ -682,7 +688,7 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.30.0</version>
+                    <version>0.33.0</version>
                     <extensions>true</extensions>
                 </plugin>
 
