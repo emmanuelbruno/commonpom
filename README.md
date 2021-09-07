@@ -10,3 +10,8 @@ A common pom with :
   - docker image easy build
   - basic rules enforcing
   - basic jar signing
+
+Update with :
+  - mvn versions:display-dependency-updates
+  - mvn versions:use-latest-versions
+  - mvn versions:update-properties  
